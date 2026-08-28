@@ -1,15 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { WalletState } from '../types';
+import { WalletState, WalletType } from '../types';
 import {
   connectFreighterWallet,
   fetchXlmBalance,
-  checkFreighterInstalled,
+  createFundedDemoWallet,
+  isFreighterAvailable,
 } from '../services/stellar';
 
 interface WalletContextType extends WalletState {
   connectWallet: () => Promise<void>;
+  connectDemoWallet: () => Promise<void>;
   disconnectWallet: () => void;
   refreshBalance: () => Promise<void>;
+  isFreighterInstalled: boolean;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -25,15 +28,18 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     isLoading: false,
   });
 
-  // Restore stored session if present
+  const [isFreighterInstalled, setIsFreighterInstalled] = useState<boolean>(true);
+
   useEffect(() => {
+    setIsFreighterInstalled(isFreighterAvailable());
     const savedKey = localStorage.getItem('stellar_connected_pubkey');
+    const savedType = (localStorage.getItem('stellar_wallet_type') as WalletType) || 'freighter';
     if (savedKey) {
-      handleInitialConnect(savedKey);
+      handleInitialConnect(savedKey, savedType);
     }
   }, []);
 
-  const handleInitialConnect = async (pubKey: string) => {
+  const handleInitialConnect = async (pubKey: string, type: WalletType) => {
     setWalletState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
       const balance = await fetchXlmBalance(pubKey);
@@ -41,7 +47,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         isConnected: true,
         publicKey: pubKey,
         balance,
-        walletType: 'freighter',
+        walletType: type,
         network: 'Testnet',
         error: null,
         isLoading: false,
@@ -50,7 +56,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setWalletState((prev) => ({
         ...prev,
         isLoading: false,
-        error: 'Failed to restore wallet balance.',
+        error: 'Failed to fetch account balance.',
       }));
     }
   };
@@ -62,6 +68,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const balance = await fetchXlmBalance(pubKey);
 
       localStorage.setItem('stellar_connected_pubkey', pubKey);
+      localStorage.setItem('stellar_wallet_type', 'freighter');
 
       setWalletState({
         isConnected: true,
@@ -77,13 +84,40 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         ...prev,
         isConnected: false,
         isLoading: false,
-        error: err.message || 'Connection failed. Please check Freighter wallet.',
+        error: err.message || 'Freighter connection failed. Check extension permissions.',
+      }));
+    }
+  };
+
+  const connectDemoWallet = async () => {
+    setWalletState((prev) => ({ ...prev, isLoading: true, error: null }));
+    try {
+      const { publicKey: pubKey, balance } = await createFundedDemoWallet();
+
+      localStorage.setItem('stellar_connected_pubkey', pubKey);
+      localStorage.setItem('stellar_wallet_type', 'simulated');
+
+      setWalletState({
+        isConnected: true,
+        publicKey: pubKey,
+        balance,
+        walletType: 'simulated',
+        network: 'Testnet',
+        error: null,
+        isLoading: false,
+      });
+    } catch (err: any) {
+      setWalletState((prev) => ({
+        ...prev,
+        isLoading: false,
+        error: 'Failed to create demo testnet wallet.',
       }));
     }
   };
 
   const disconnectWallet = () => {
     localStorage.removeItem('stellar_connected_pubkey');
+    localStorage.removeItem('stellar_wallet_type');
     setWalletState({
       isConnected: false,
       publicKey: null,
@@ -107,8 +141,10 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       value={{
         ...walletState,
         connectWallet,
+        connectDemoWallet,
         disconnectWallet,
         refreshBalance,
+        isFreighterInstalled,
       }}
     >
       {children}
