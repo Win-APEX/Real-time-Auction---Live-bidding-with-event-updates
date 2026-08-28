@@ -1,0 +1,59 @@
+name: Soroban & Frontend CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-and-build-contract:
+    name: Build & Test Soroban Smart Contract
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Cargo Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            contracts/auction/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run Soroban Contract Unit Tests
+        run: |
+          cargo test --manifest-path contracts/auction/Cargo.toml
+
+      - name: Build Soroban Contract WASM
+        run: |
+          cargo build --manifest-path contracts/auction/Cargo.toml --target wasm32-unknown-unknown --release
+
+  test-and-build-frontend:
+    name: Test & Build Frontend Application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Frontend Unit Tests
+        run: npm test
+
+      - name: Build Production Frontend SPA
+        run: npm run build
