@@ -1,12 +1,18 @@
 import React from 'react';
 import { useWallet } from '../context/WalletContext';
-import { Wallet, LogOut, RefreshCw, Zap, ShieldCheck, Sparkles } from 'lucide-react';
+import { Wallet, LogOut, RefreshCw, Zap, ShieldCheck, Sparkles, User, LayoutGrid } from 'lucide-react';
 
 interface NavbarProps {
+  currentTab: 'explore' | 'profile';
+  onTabChange: (tab: 'explore' | 'profile') => void;
   onCreateAuctionClick: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onCreateAuctionClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  currentTab,
+  onTabChange,
+  onCreateAuctionClick,
+}) => {
   const {
     isConnected,
     publicKey,
@@ -28,47 +34,76 @@ export const Navbar: React.FC<NavbarProps> = ({ onCreateAuctionClick }) => {
   return (
     <header className="header">
       <div className="header-container">
-        <div className="logo">
-          <Zap className="w-6 h-6 text-emerald-400" style={{ width: 22, height: 22, color: '#10b981' }} />
-          <span>StellarBid</span>
-          <span className="logo-badge">SOROBAN TESTNET</span>
+        {/* Brand Logo & View Switcher */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+          <div className="logo" onClick={() => onTabChange('explore')} style={{ cursor: 'pointer' }}>
+            <Zap style={{ width: 24, height: 24, color: '#10b981' }} />
+            <span>StellarBid</span>
+            <span className="logo-badge">SOROBAN TESTNET</span>
+          </div>
+
+          <nav style={{ display: 'flex', gap: '0.4rem' }}>
+            <button
+              className={`btn ${currentTab === 'explore' ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ padding: '0.45rem 0.9rem', fontSize: '0.85rem' }}
+              onClick={() => onTabChange('explore')}
+            >
+              <LayoutGrid style={{ width: 15, height: 15 }} /> Explore Auctions
+            </button>
+
+            <button
+              className={`btn ${currentTab === 'profile' ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ padding: '0.45rem 0.9rem', fontSize: '0.85rem' }}
+              onClick={() => onTabChange('profile')}
+            >
+              <User style={{ width: 15, height: 15 }} /> Profile & Stats
+            </button>
+          </nav>
         </div>
 
+        {/* Wallet & Balance Area */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {isConnected ? (
             <>
               <button
                 className="btn btn-secondary"
                 onClick={onCreateAuctionClick}
-                style={{ background: 'rgba(16, 185, 129, 0.15)', borderColor: 'rgba(16, 185, 129, 0.3)' }}
+                style={{ background: 'rgba(16, 185, 129, 0.15)', borderColor: 'rgba(16, 185, 129, 0.3)', color: '#10b981' }}
               >
                 + Create Auction
               </button>
 
+              {/* Prominent Balance & Address Container */}
               <div
                 className="glass-panel"
                 style={{
-                  padding: '0.4rem 0.85rem',
+                  padding: '0.45rem 0.95rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.75rem',
+                  gap: '0.85rem',
                   fontSize: '0.9rem',
+                  border: '1px solid rgba(16, 185, 129, 0.35)',
+                  boxShadow: '0 0 15px rgba(16, 185, 129, 0.15)',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <ShieldCheck style={{ width: 16, height: 16, color: '#10b981' }} />
-                  <span className="font-mono">{formatAddress(publicKey || '')}</span>
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}
+                  onClick={() => onTabChange('profile')}
+                  title="View Account Profile"
+                >
+                  <ShieldCheck style={{ width: 18, height: 18, color: '#10b981' }} />
+                  <span className="font-mono" style={{ fontWeight: 600 }}>{formatAddress(publicKey || '')}</span>
                   {walletType === 'simulated' && (
-                    <span style={{ fontSize: '0.7rem', color: '#06b6d4', background: 'rgba(6,182,212,0.15)', padding: '1px 5px', borderRadius: 4 }}>
+                    <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#06b6d4', background: 'rgba(6,182,212,0.2)', padding: '1px 6px', borderRadius: 4 }}>
                       DEMO
                     </span>
                   )}
                 </div>
 
-                <div style={{ height: 16, width: 1, background: 'rgba(255,255,255,0.15)' }} />
+                <div style={{ height: 18, width: 1, background: 'rgba(255,255,255,0.15)' }} />
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <span style={{ fontWeight: 700, color: '#10b981' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontWeight: 800, color: '#10b981', fontSize: '0.95rem', fontFamily: 'var(--font-mono)' }}>
                     {balance !== null ? balance.toFixed(2) : '0.00'} XLM
                   </span>
                   <button
@@ -81,7 +116,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onCreateAuctionClick }) => {
                       display: 'flex',
                       padding: 2,
                     }}
-                    title="Refresh Balance"
+                    title="Refresh XLM Balance"
                   >
                     <RefreshCw style={{ width: 14, height: 14 }} />
                   </button>
