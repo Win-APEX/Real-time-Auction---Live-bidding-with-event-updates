@@ -58,14 +58,14 @@ const Dashboard: React.FC = () => {
       message: 'Preparing Soroban XDR contract invocation...',
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     setTxStatus({
       step: 'signing',
       message: 'Awaiting Freighter transaction authorization...',
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    await new Promise((resolve) => setTimeout(resolve, 700));
 
     setTxStatus({
       step: 'submitting',
@@ -133,14 +133,14 @@ const Dashboard: React.FC = () => {
       message: 'Constructing create_auction contract call...',
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     setTxStatus({
       step: 'signing',
       message: 'Awaiting wallet signature...',
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    await new Promise((resolve) => setTimeout(resolve, 700));
 
     setTxStatus({
       step: 'submitting',
@@ -203,7 +203,7 @@ const Dashboard: React.FC = () => {
   const totalVolume = auctions.reduce((acc, a) => acc + a.highestBid, 0);
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Navbar
         currentTab={currentTab}
         onTabChange={(t) => setCurrentTab(t)}
@@ -220,8 +220,8 @@ const Dashboard: React.FC = () => {
           />
         ) : (
           <>
-            {/* Banner Overview */}
-            <section className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(6, 78, 59, 0.35) 100%)' }}>
+            {/* Banner Overview - Full Width */}
+            <section className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(6, 78, 59, 0.35) 100%)', width: '100%' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
@@ -252,7 +252,7 @@ const Dashboard: React.FC = () => {
             </section>
 
             {/* Filter Controls & Search Bar */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', gap: '1rem', flexWrap: 'wrap', width: '100%' }}>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 {(['all', 'live', 'ended'] as const).map((tab) => (
                   <button
@@ -280,8 +280,8 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
 
-            {/* Layout: Main Grid & Side Live Event Stream */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '1.5rem' }}>
+            {/* Layout: Main Grid & Side Live Event Stream - Full Width Grid */}
+            <div className="dashboard-layout">
               <div className="auction-grid">
                 {filteredAuctions.length === 0 ? (
                   <div className="glass-panel" style={{ gridColumn: '1 / -1', padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
@@ -307,7 +307,7 @@ const Dashboard: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border-light)', padding: '1.5rem', marginTop: '3rem', textAlign: 'center', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+      <footer style={{ borderTop: '1px solid var(--border-light)', padding: '1.5rem', marginTop: '3rem', textAlign: 'center', fontSize: '0.85rem', color: 'var(--text-muted)', width: '100%' }}>
         Real-Time Auction Web3 App • Stellar Soroban Testnet & Freighter Wallet • Built with React + TypeScript
       </footer>
 
