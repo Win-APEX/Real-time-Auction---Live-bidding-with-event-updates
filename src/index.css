@@ -112,16 +112,16 @@ body {
   white-space: nowrap;
 }
 
-/* Custom Buttons */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.65rem 1.2rem;
+  padding: 0.6rem 1.1rem;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   cursor: pointer;
   border: none;
   transition: all 0.25s ease;
@@ -284,86 +284,106 @@ body {
   background: rgba(16, 185, 129, 0.4);
 }
 
-/* Comprehensive Mobile & Tablet Responsive Media Queries */
-@media (max-width: 1024px) {
-  .dashboard-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
+/* Ultra-Sleek Mobile Header & Responsive Overrides */
 @media (max-width: 768px) {
   .header {
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 0.85rem;
   }
   .container {
-    padding: 0 1rem;
-    margin: 1rem 0;
+    padding: 0 0.85rem;
+    margin: 0.85rem 0;
   }
+
   .header-container {
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
+
   .logo-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
   }
+
   .nav-tabs {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
+    background: rgba(15, 23, 42, 0.8);
+    border-radius: 12px;
+    padding: 3px;
+    border: 1px solid var(--border-light);
   }
+
   .nav-tabs .btn {
     flex: 1;
-    text-align: center;
+    font-size: 0.8rem;
+    padding: 0.45rem 0.5rem;
+    border-radius: 9px;
   }
+
   .wallet-area {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 0.4rem;
   }
+
+  .wallet-area .glass-panel {
+    flex: 1;
+    padding: 0.4rem 0.65rem !important;
+    font-size: 0.8rem !important;
+    border-radius: 12px;
+  }
+
   .wallet-area .btn {
-    width: 100%;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
   }
-  .auction-grid {
-    grid-template-columns: 1fr;
-  }
+
   .banner-overview {
-    padding: 1.25rem !important;
+    padding: 1rem !important;
+    border-radius: 14px !important;
   }
+
   .banner-overview h1 {
-    font-size: 1.6rem !important;
+    font-size: 1.45rem !important;
   }
+
   .banner-overview p {
-    font-size: 0.9rem !important;
+    font-size: 0.85rem !important;
   }
+
   .search-filter-bar {
     flex-direction: column;
     align-items: stretch !important;
-    gap: 0.75rem !important;
+    gap: 0.6rem !important;
   }
+
+  .search-filter-bar > div:first-child {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .search-filter-bar .search-box {
     width: 100% !important;
   }
+
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .auction-grid {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
   .modal-content {
-    padding: 1.25rem;
+    padding: 1.15rem;
     border-radius: 16px;
     width: 95%;
-  }
-}
-
-@media (max-width: 480px) {
-  .btn {
-    font-size: 0.85rem;
-    padding: 0.55rem 0.85rem;
-  }
-  .logo {
-    font-size: 1.2rem;
-  }
-  .logo-badge {
-    font-size: 0.6rem;
   }
 }
