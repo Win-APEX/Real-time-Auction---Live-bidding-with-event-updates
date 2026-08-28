@@ -26,15 +26,15 @@ Traditional centralized online auctions suffer from:
 
 ## 📸 Application Screenshots
 
+> *Add your real application browser screenshots below when submitting:*
+
 ### 1. Wallet Connected State & Balance Displayed
-The connected Freighter wallet account public key (`GBXK...4KL9`) and real-time XLM balance (`1,250.50 XLM`) are fetched via Stellar Horizon Testnet and displayed in the top navigation bar.
+<!-- Add real screenshot of connected wallet & XLM balance here -->
+*(Shows Freighter connected with public address and live XLM balance in navigation header)*
 
-![Wallet Connected State & Balance Displayed](docs/screenshots/wallet_connected.png)
-
-### 2. Successful Testnet Transaction & Transaction Result
-When a bid or new auction transaction is confirmed on the Stellar Soroban testnet, a step-by-step transaction state timeline feedback modal displays the **Transaction Hash** and a direct link to inspect the ledger record on **Stellar Expert Explorer**.
-
-![Successful Testnet Transaction Result](docs/screenshots/transaction_result.png)
+### 2. Successful Testnet Transaction & Result
+<!-- Add real screenshot of successful transaction result modal here -->
+*(Shows transaction feedback modal displaying confirmation state, transaction hash, and explorer link)*
 
 ---
 
@@ -79,10 +79,6 @@ When a bid or new auction transaction is confirmed on the Stellar Soroban testne
  │       └── src/
  │           ├── lib.rs             # Soroban smart contract logic & events
  │           └── test.rs            # Rust unit tests (create, bid, outbid, end, errors)
- ├── docs/
- │   └── screenshots/               # UI Screenshots for README submission
- │       ├── wallet_connected.png
- │       └── transaction_result.png
  ├── scripts/
  │   └── deploy.sh                  # Soroban testnet WASM build & deployment script
  ├── src/
