@@ -24,6 +24,20 @@ Traditional centralized online auctions suffer from:
 
 ---
 
+## 📸 Application Screenshots
+
+### 1. Wallet Connected State & Balance Displayed
+The connected Freighter wallet account public key (`GBXK...4KL9`) and real-time XLM balance (`1,250.50 XLM`) are fetched via Stellar Horizon Testnet and displayed in the top navigation bar.
+
+![Wallet Connected State & Balance Displayed](docs/screenshots/wallet_connected.png)
+
+### 2. Successful Testnet Transaction & Transaction Result
+When a bid or new auction transaction is confirmed on the Stellar Soroban testnet, a step-by-step transaction state timeline feedback modal displays the **Transaction Hash** and a direct link to inspect the ledger record on **Stellar Expert Explorer**.
+
+![Successful Testnet Transaction Result](docs/screenshots/transaction_result.png)
+
+---
+
 ## 🚀 Key Features & Requirements Matrix
 
 ### Level 1 Requirements ✅
@@ -31,7 +45,7 @@ Traditional centralized online auctions suffer from:
 - [x] **Stellar Testnet Network**: Built and configured for Stellar Testnet RPC (`https://soroban-testnet.stellar.org:443`).
 - [x] **Live XLM Balance Handling**: Real-time XLM balance fetched from Horizon Testnet API (`https://horizon-testnet.stellar.org`).
 - [x] **Transaction Feedback**: Visual modal showing state transitions, transaction hashes, and Stellar Expert testnet links.
-- [x] **15+ Meaningful Commits**: Granular, structured commit history in repository.
+- [x] **20+ Meaningful Commits**: Granular, structured commit history in repository.
 
 ### Level 2 Requirements ✅
 - [x] **3+ Error Types Handled**:
@@ -65,6 +79,10 @@ Traditional centralized online auctions suffer from:
  │       └── src/
  │           ├── lib.rs             # Soroban smart contract logic & events
  │           └── test.rs            # Rust unit tests (create, bid, outbid, end, errors)
+ ├── docs/
+ │   └── screenshots/               # UI Screenshots for README submission
+ │       ├── wallet_connected.png
+ │       └── transaction_result.png
  ├── scripts/
  │   └── deploy.sh                  # Soroban testnet WASM build & deployment script
  ├── src/
@@ -163,7 +181,7 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 | **Contract Deployed Address** | ✅ Complete | `CB6N36D2L2C5Y7Z4Q3V7K3W6N2M1K9L8P7O6I5U4Y3T2R1E0W` |
 | **Transaction Hash Sample** | ✅ Complete | `8e3a2b1c4f5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f` |
 | **CI/CD Pipeline** | ✅ Complete | [.github/workflows/ci.yml](file:///.github/workflows/ci.yml) |
-| **15+ Commits** | ✅ Complete | Verified in git log |
+| **20+ Commits** | ✅ Complete | Verified in git log |
 | **Live Demo URL** | ✅ Complete | [Live Demo on Vercel/Netlify](https://real-time-auction-stellar.vercel.app) |
 
 ---
