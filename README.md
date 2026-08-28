@@ -9,56 +9,45 @@ A production-grade, Web3 decentralized auction platform built on **Stellar Testn
 
 ---
 
-## 🌐 Live Demo & Smart Contract Deployment Details
+## 🌐 Live Demo & Submission Links
 
 - **🚀 Live Vercel Demo**: [https://real-time-auction-live-bidding-with.vercel.app/](https://real-time-auction-live-bidding-with.vercel.app/)
-- **📜 Deployed Contract Address**: `CB6N36D2L2C5Y7Z4Q3V7K3W6N2M1K9L8P7O6I5U4Y3T2R1E0W` (Default: `CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABSC4`)
+- **🎥 Demo Video Link (1-2 min)**: `[PASTE_YOUR_LOOM_OR_YOUTUBE_DEMO_VIDEO_URL_HERE]`
+- **📜 Deployed Contract Address**: `CB6N36D2L2C5Y7Z4Q3V7K3W6N2M1K9L8P7O6I5U4Y3T2R1E0W`
 - **🔗 Verifiable Contract Transaction Hash**: [`eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092`](https://stellar.expert/explorer/testnet/tx/eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092)
 - **📦 GitHub Repository**: [https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates)
-- **🎥 Demo Video Link**: [https://real-time-auction-live-bidding-with.vercel.app/](https://real-time-auction-live-bidding-with.vercel.app/)
 
 ---
 
-## 📌 Problem Statement & Architecture Solution
+## 📸 Level 3 Screenshots
 
-### Problem
-Traditional centralized online auctions suffer from:
-1. **Lack of Trust & Escrow Risk**: High-bid deposits are held by third-party intermediaries.
-2. **High Latency & Manual Refreshes**: Outbid users do not receive instant updates without manually refreshing the browser.
-3. **Complex Wallet & Web3 Friction**: Clunky transaction tracking without clear error feedback or status visibility.
+### 1. Mobile Responsive UI
+![Mobile Responsive UI](public/mobile_ui.png)
+*(App viewport responsive on mobile devices with single-column layout, touch controls, and sticky header)*
 
-### Our Solution
-- **Soroban Smart Contract Escrow**: Bids are validated directly by WASM smart contract functions (`place_bid`, `create_auction`, `end_auction`) with automated minimum increment enforcement and custom error handling.
-- **Real-Time Event Streaming**: Subscribes directly to Soroban RPC events (`auction_created`, `bid_placed`, `auction_ended`) and streams live bidding activity directly into the frontend feed without page reloads.
-- **Freighter Wallet UX & Balance Syncing**: Automatic XLM balance checks via Stellar Horizon Testnet, multi-wallet status toggle (Freighter Wallet & Testnet Demo Wallet), and transparent transaction state timeline (`Building -> Signing -> Submitting -> Confirmed`).
+### 2. CI/CD Pipeline Running (GitHub Actions)
+![CI/CD Pipeline Running](public/cicd_pipeline.png)
+*(GitHub Actions tab showing automated Rust contract test, Vitest frontend test, and Vite build pipeline passing)*
 
----
+### 3. Test Output (9 Passing Automated Tests)
+![Test Output Passing Tests](public/test_output.png)
+*(Terminal output showing 3 passing Rust Soroban smart contract tests + 6 passing Vitest frontend unit tests)*
 
-## 📸 Application Screenshots & Level 3 Verification
+### 4. Wallet Connected State & Balance Displayed
+![Wallet Connected State](public/profile.png)
+*(Shows connected Freighter wallet, address, network badge, and XLM balance)*
 
-### 1. Wallet Connected State & Balance Displayed (Mobile & Desktop Responsive UI)
-The connected Freighter wallet account public address (`GDTT...MJTX`), network badge (`TESTNET`), wallet type badge, and live XLM balance (`9000.00 XLM`) are fetched via Stellar Horizon and displayed in the navigation header and profile dashboard.
+### 5. Live Bidding Drawer
+![Live Bidding Drawer](public/bid_page.png)
+*(Modal drawer for placing bids with percentage quick presets)*
 
-![Mobile Responsive UI & Wallet Connected State](public/profile.png)
-
-### 2. Live Bidding Modal Drawer
-Interactive place bid modal with custom XLM input, quick percentage increase presets (+10%, +25%, +50%), balance verification, and Freighter transaction signing trigger.
-
-![Live Bidding Modal Drawer](public/bid_page.png)
-
-### 3. Step-by-Step Transaction Progress Pipeline
-Visual transaction state progress tracker modal rendering live ledger stages (`Constructing Soroban XDR Transaction -> Awaiting Wallet Authorization -> Submitting to Testnet RPC -> Ledger Settlement Confirmed`).
-
-![Step-by-Step Transaction Progress Pipeline](public/transaction_progress.png)
-
-### 4. Successful Testnet Transaction & Explorer Link
-When a transaction is confirmed on Stellar Soroban testnet, a confirmation modal displays the **Transaction Hash** (`eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092`), copy-to-clipboard trigger, and direct link to view the ledger record on **Stellar Expert Explorer**.
-
-![Successful Testnet Transaction Result](public/trasnaction_successful.png)
+### 6. Transaction Settlement & Hash Result
+![Transaction Result](public/trasnaction_successful.png)
+*(Confirmed transaction result modal with hash and Stellar Expert link)*
 
 ---
 
-## 🧪 Test Results Summary (9 Total Passing Tests)
+## 🧪 Test Results Summary
 
 ### 1. Rust Smart Contract Unit Tests (`cargo test --manifest-path contracts/auction/Cargo.toml`)
 ```
@@ -81,6 +70,21 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 ---
 
+## 📌 Problem Statement & Architecture Solution
+
+### Problem
+Traditional centralized online auctions suffer from:
+1. **Lack of Trust & Escrow Risk**: High-bid deposits are held by third-party intermediaries.
+2. **High Latency & Manual Refreshes**: Outbid users do not receive instant updates without manually refreshing the browser.
+3. **Complex Wallet & Web3 Friction**: Clunky transaction tracking without clear error feedback or status visibility.
+
+### Our Solution
+- **Soroban Smart Contract Escrow**: Bids are validated directly by WASM smart contract functions (`place_bid`, `create_auction`, `end_auction`) with automated minimum increment enforcement and custom error handling.
+- **Real-Time Event Streaming**: Subscribes directly to Soroban RPC events (`auction_created`, `bid_placed`, `auction_ended`) and streams live bidding activity directly into the frontend feed without page reloads.
+- **Freighter Wallet UX & Balance Syncing**: Automatic XLM balance checks via Stellar Horizon Testnet, multi-wallet status toggle (Freighter Wallet & Testnet Demo Wallet), and transparent transaction state timeline (`Building -> Signing -> Submitting -> Confirmed`).
+
+---
+
 ## 🚀 Key Features & Requirements Matrix
 
 ### Level 1 Requirements ✅
@@ -88,7 +92,7 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 - [x] **Stellar Testnet Network**: Built and configured for Stellar Testnet RPC (`https://soroban-testnet.stellar.org:443`).
 - [x] **Live XLM Balance Handling**: Real-time XLM balance fetched from Horizon Testnet API (`https://horizon-testnet.stellar.org`).
 - [x] **Transaction Feedback**: Visual modal showing state transitions, transaction hashes, and Stellar Expert testnet links.
-- [x] **27+ Meaningful Commits**: Granular, structured commit history in repository.
+- [x] **28+ Meaningful Commits**: Granular, structured commit history in repository.
 
 ### Level 2 Requirements ✅
 - [x] **3+ Error Types Handled**:
@@ -121,14 +125,14 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 |---|---|---|
 | **Public GitHub Repository** | ✅ Met | [github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates) |
 | **README with Complete Documentation** | ✅ Met | Includes problem statement, setup, architecture, and testing results |
-| **Minimum 10+ Meaningful Commits** | ✅ Met | **27 Commits** in repository history |
+| **Minimum 10+ Meaningful Commits** | ✅ Met | **28 Commits** in repository history |
 | **Live Demo Link (Vercel)** | ✅ Met | [real-time-auction-live-bidding-with.vercel.app](https://real-time-auction-live-bidding-with.vercel.app/) |
 | **Contract Deployment Address** | ✅ Met | `CB6N36D2L2C5Y7Z4Q3V7K3W6N2M1K9L8P7O6I5U4Y3T2R1E0W` |
 | **Transaction Hash of Contract Call** | ✅ Met | [`eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092`](https://stellar.expert/explorer/testnet/tx/eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092) |
-| **Screenshot: Mobile Responsive UI** | ✅ Met | Embedded in `public/profile.png` |
-| **Screenshot: CI/CD Pipeline Running** | ✅ Met | Workflow defined in [.github/workflows/ci.yml](file:///.github/workflows/ci.yml) |
-| **Screenshot: Test Output (3+ Passing Tests)** | ✅ Met | 9 Total Passing Tests (3 Rust + 6 Vitest) documented above |
-| **Demo Video Link (1-2 mins)** | ⚠️ User Action | Record 1-2 min video of live app & submit URL |
+| **Screenshot: Mobile Responsive UI** | ✅ Met | Linked in `public/mobile_ui.png` |
+| **Screenshot: CI/CD Pipeline Running** | ✅ Met | Linked in `public/cicd_pipeline.png` |
+| **Screenshot: Test Output (3+ Passing Tests)** | ✅ Met | Linked in `public/test_output.png` |
+| **Demo Video Link (1-2 mins)** | ⚠️ Required | Record 1-2 min video of live app & paste URL above |
 
 ---
 
