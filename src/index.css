@@ -3,8 +3,8 @@
 :root {
   --bg-primary: #07090e;
   --bg-secondary: #0f172a;
-  --bg-card: rgba(15, 23, 42, 0.78);
-  --bg-glass: rgba(30, 41, 59, 0.55);
+  --bg-card: rgba(15, 23, 42, 0.85);
+  --bg-glass: rgba(30, 41, 59, 0.6);
 
   --accent-emerald: #10b981;
   --accent-cyan: #06b6d4;
@@ -31,7 +31,9 @@
 
 html, body {
   width: 100%;
+  max-width: 100vw;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 body {
@@ -43,7 +45,6 @@ body {
     radial-gradient(at 50% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%);
   background-attachment: fixed;
   color: var(--text-main);
-  overflow-x: hidden;
 }
 
 /* Glassmorphism Panel */
@@ -55,6 +56,7 @@ body {
   border-radius: 18px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
 }
 
 .glass-panel:hover {
@@ -62,16 +64,16 @@ body {
   box-shadow: 0 12px 40px 0 rgba(16, 185, 129, 0.2);
 }
 
-/* Header & Nav - Fluid Full Width */
+/* Header & Nav */
 .header {
   position: sticky;
   top: 0;
   z-index: 100;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  background: rgba(7, 9, 14, 0.88);
+  background: rgba(7, 9, 14, 0.92);
   border-bottom: 1px solid var(--border-light);
-  padding: 0.85rem 2rem;
+  padding: 0.85rem 1.5rem;
   width: 100%;
 }
 
@@ -89,38 +91,42 @@ body {
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
   font-weight: 800;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  white-space: nowrap;
 }
 
 .logo-badge {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 0.2rem 0.55rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 6px;
   background: rgba(16, 185, 129, 0.2);
   color: var(--accent-emerald);
   border: 1px solid rgba(16, 185, 129, 0.4);
+  white-space: nowrap;
 }
 
 /* Custom Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.65rem 1.25rem;
+  padding: 0.65rem 1.2rem;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   cursor: pointer;
   border: none;
   transition: all 0.25s ease;
   font-family: var(--font-main);
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -184,25 +190,25 @@ body {
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
-/* Fluid Full-Width Container */
+/* Fluid Layout Container */
 .container {
   width: 100%;
   max-width: 100%;
   margin: 1.5rem 0;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 }
 
-/* Responsive Fluid Layout Grid */
+/* Responsive Dashboard Layout */
 .dashboard-layout {
   display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 2rem;
+  grid-template-columns: 1fr 340px;
+  gap: 1.5rem;
   width: 100%;
 }
 
 .auction-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   width: 100%;
 }
@@ -211,9 +217,9 @@ body {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 200;
   display: flex;
   align-items: center;
@@ -224,11 +230,13 @@ body {
 .modal-content {
   background: var(--bg-secondary);
   border: 1px solid var(--border-light);
-  border-radius: 22px;
+  border-radius: 20px;
   width: 100%;
-  max-width: 540px;
-  padding: 2rem;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.75rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
   animation: modal-appear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -260,7 +268,7 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Custom Scrollbars */
+/* Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -276,32 +284,86 @@ body {
   background: rgba(16, 185, 129, 0.4);
 }
 
-/* Responsive Breakpoints */
+/* Comprehensive Mobile & Tablet Responsive Media Queries */
 @media (max-width: 1024px) {
-  .header {
-    padding: 0.85rem 1rem;
-  }
-  .container {
-    padding: 1rem;
-  }
   .dashboard-layout {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .header {
+    padding: 0.75rem 1rem;
+  }
+  .container {
+    padding: 0 1rem;
+    margin: 1rem 0;
+  }
   .header-container {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.75rem;
   }
-  .logo {
-    justify-content: center;
+  .logo-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .nav-tabs {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .nav-tabs .btn {
+    flex: 1;
+    text-align: center;
+  }
+  .wallet-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .wallet-area .btn {
+    width: 100%;
   }
   .auction-grid {
     grid-template-columns: 1fr;
   }
+  .banner-overview {
+    padding: 1.25rem !important;
+  }
+  .banner-overview h1 {
+    font-size: 1.6rem !important;
+  }
+  .banner-overview p {
+    font-size: 0.9rem !important;
+  }
+  .search-filter-bar {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+  .search-filter-bar .search-box {
+    width: 100% !important;
+  }
   .modal-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
     border-radius: 16px;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    font-size: 0.85rem;
+    padding: 0.55rem 0.85rem;
+  }
+  .logo {
+    font-size: 1.2rem;
+  }
+  .logo-badge {
+    font-size: 0.6rem;
   }
 }

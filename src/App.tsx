@@ -220,54 +220,54 @@ const Dashboard: React.FC = () => {
           />
         ) : (
           <>
-            {/* Banner Overview - Full Width */}
-            <section className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(6, 78, 59, 0.35) 100%)', width: '100%' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
+            {/* Banner Overview */}
+            <section className="glass-panel banner-overview" style={{ padding: '2rem', marginBottom: '1.5rem', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(6, 78, 59, 0.35) 100%)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.25rem' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                    <Sparkles style={{ width: 20, height: 20, color: 'var(--accent-emerald)' }} />
-                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--accent-emerald)', letterSpacing: '0.05em' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
+                    <Sparkles style={{ width: 18, height: 18, color: 'var(--accent-emerald)' }} />
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-emerald)', letterSpacing: '0.05em' }}>
                       STELLAR SOROBAN REAL-TIME BIDDING
                     </span>
                   </div>
-                  <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem', lineHeight: 1.2 }}>
+                  <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#fff', marginBottom: '0.4rem', lineHeight: 1.2 }}>
                     Decentralized Live Auctions
                   </h1>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '1rem', maxWidth: 640, lineHeight: 1.5 }}>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', maxWidth: 640, lineHeight: 1.45 }}>
                     Stream real-time bids, automated smart contract escrow, and event notifications directly on Stellar Testnet.
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid var(--border-light)', borderRadius: 14, padding: '0.85rem 1.35rem' }}>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Active Auctions</span>
-                    <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff' }}>{auctions.length}</span>
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid var(--border-light)', borderRadius: 12, padding: '0.75rem 1.15rem' }}>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>Active Auctions</span>
+                    <span style={{ fontSize: '1.35rem', fontWeight: 800, color: '#fff' }}>{auctions.length}</span>
                   </div>
-                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid var(--border-light)', borderRadius: 14, padding: '0.85rem 1.35rem' }}>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Total Volume</span>
-                    <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-emerald)' }}>{totalVolume} XLM</span>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid var(--border-light)', borderRadius: 12, padding: '0.75rem 1.15rem' }}>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>Total Volume</span>
+                    <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--accent-emerald)' }}>{totalVolume} XLM</span>
                   </div>
                 </div>
               </div>
             </section>
 
             {/* Filter Controls & Search Bar */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', gap: '1rem', flexWrap: 'wrap', width: '100%' }}>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <div className="search-filter-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', gap: '1rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '0.4rem', width: '100%', maxWidth: 'max-content' }}>
                 {(['all', 'live', 'ended'] as const).map((tab) => (
                   <button
                     key={tab}
                     className={`btn ${activeFilterTab === tab ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ padding: '0.45rem 1rem', fontSize: '0.85rem', textTransform: 'capitalize' }}
+                    style={{ padding: '0.45rem 0.85rem', fontSize: '0.82rem', textTransform: 'capitalize' }}
                     onClick={() => setActiveFilterTab(tab)}
                   >
-                    {tab === 'live' && <Radio style={{ width: 14, height: 14 }} />}
+                    {tab === 'live' && <Radio style={{ width: 13, height: 13 }} />}
                     {tab} Auctions
                   </button>
                 ))}
               </div>
 
-              <div style={{ position: 'relative', width: 280 }}>
+              <div className="search-box" style={{ position: 'relative', width: 280 }}>
                 <Search style={{ width: 16, height: 16, position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 <input
                   type="text"
@@ -280,7 +280,7 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
 
-            {/* Layout: Main Grid & Side Live Event Stream - Full Width Grid */}
+            {/* Layout: Main Grid & Side Live Event Stream */}
             <div className="dashboard-layout">
               <div className="auction-grid">
                 {filteredAuctions.length === 0 ? (
@@ -307,7 +307,7 @@ const Dashboard: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border-light)', padding: '1.5rem', marginTop: '3rem', textAlign: 'center', fontSize: '0.85rem', color: 'var(--text-muted)', width: '100%' }}>
+      <footer style={{ borderTop: '1px solid var(--border-light)', padding: '1.5rem', marginTop: '3rem', textAlign: 'center', fontSize: '0.82rem', color: 'var(--text-muted)', width: '100%' }}>
         Real-Time Auction Web3 App • Stellar Soroban Testnet & Freighter Wallet • Built with React + TypeScript
       </footer>
 

@@ -34,35 +34,36 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="header">
       <div className="header-container">
-        {/* Brand Logo & View Switcher */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+        {/* Brand Logo Bar */}
+        <div className="logo-bar">
           <div className="logo" onClick={() => onTabChange('explore')} style={{ cursor: 'pointer' }}>
-            <Zap style={{ width: 24, height: 24, color: '#10b981' }} />
+            <Zap style={{ width: 22, height: 22, color: '#10b981' }} />
             <span>StellarBid</span>
             <span className="logo-badge">SOROBAN TESTNET</span>
           </div>
-
-          <nav style={{ display: 'flex', gap: '0.4rem' }}>
-            <button
-              className={`btn ${currentTab === 'explore' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{ padding: '0.45rem 0.9rem', fontSize: '0.85rem' }}
-              onClick={() => onTabChange('explore')}
-            >
-              <LayoutGrid style={{ width: 15, height: 15 }} /> Explore Auctions
-            </button>
-
-            <button
-              className={`btn ${currentTab === 'profile' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{ padding: '0.45rem 0.9rem', fontSize: '0.85rem' }}
-              onClick={() => onTabChange('profile')}
-            >
-              <User style={{ width: 15, height: 15 }} /> Profile & Stats
-            </button>
-          </nav>
         </div>
 
-        {/* Wallet & Balance Area */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        {/* View Switcher Tabs */}
+        <nav className="nav-tabs" style={{ display: 'flex', gap: '0.4rem' }}>
+          <button
+            className={`btn ${currentTab === 'explore' ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ padding: '0.45rem 0.9rem', fontSize: '0.85rem' }}
+            onClick={() => onTabChange('explore')}
+          >
+            <LayoutGrid style={{ width: 15, height: 15 }} /> Explore Auctions
+          </button>
+
+          <button
+            className={`btn ${currentTab === 'profile' ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ padding: '0.45rem 0.9rem', fontSize: '0.85rem' }}
+            onClick={() => onTabChange('profile')}
+          >
+            <User style={{ width: 15, height: 15 }} /> Profile & Stats
+          </button>
+        </nav>
+
+        {/* Wallet Area */}
+        <div className="wallet-area" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {isConnected ? (
             <>
               <button
@@ -73,49 +74,41 @@ export const Navbar: React.FC<NavbarProps> = ({
                 + Create Auction
               </button>
 
-              {/* Prominent Balance & Address Container */}
               <div
                 className="glass-panel"
                 style={{
-                  padding: '0.45rem 0.95rem',
+                  padding: '0.45rem 0.85rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.85rem',
-                  fontSize: '0.9rem',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem',
+                  fontSize: '0.88rem',
                   border: '1px solid rgba(16, 185, 129, 0.35)',
-                  boxShadow: '0 0 15px rgba(16, 185, 129, 0.15)',
                 }}
               >
                 <div
                   style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}
                   onClick={() => onTabChange('profile')}
-                  title="View Account Profile"
+                  title="View Profile"
                 >
-                  <ShieldCheck style={{ width: 18, height: 18, color: '#10b981' }} />
+                  <ShieldCheck style={{ width: 16, height: 16, color: '#10b981' }} />
                   <span className="font-mono" style={{ fontWeight: 600 }}>{formatAddress(publicKey || '')}</span>
                   {walletType === 'simulated' && (
-                    <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#06b6d4', background: 'rgba(6,182,212,0.2)', padding: '1px 6px', borderRadius: 4 }}>
+                    <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#06b6d4', background: 'rgba(6,182,212,0.2)', padding: '1px 5px', borderRadius: 4 }}>
                       DEMO
                     </span>
                   )}
                 </div>
 
-                <div style={{ height: 18, width: 1, background: 'rgba(255,255,255,0.15)' }} />
+                <div style={{ height: 16, width: 1, background: 'rgba(255,255,255,0.15)' }} />
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ fontWeight: 800, color: '#10b981', fontSize: '0.95rem', fontFamily: 'var(--font-mono)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <span style={{ fontWeight: 800, color: '#10b981', fontSize: '0.9rem', fontFamily: 'var(--font-mono)' }}>
                     {balance !== null ? balance.toFixed(2) : '0.00'} XLM
                   </span>
                   <button
                     onClick={refreshBalance}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: 'var(--text-muted)',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      padding: 2,
-                    }}
+                    style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', padding: 2 }}
                     title="Refresh XLM Balance"
                   >
                     <RefreshCw style={{ width: 14, height: 14 }} />
@@ -127,19 +120,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="btn btn-danger"
                 onClick={disconnectWallet}
                 title="Disconnect Wallet"
-                style={{ padding: '0.65rem' }}
+                style={{ padding: '0.6rem 0.85rem' }}
               >
                 <LogOut style={{ width: 16, height: 16 }} />
               </button>
             </>
           ) : (
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
               <button
                 className="btn btn-primary"
                 onClick={connectWallet}
                 disabled={isLoading}
+                style={{ flex: 1 }}
               >
-                <Wallet style={{ width: 18, height: 18 }} />
+                <Wallet style={{ width: 16, height: 16 }} />
                 {isLoading ? 'Connecting...' : 'Connect Freighter'}
               </button>
 
@@ -147,9 +141,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="btn btn-secondary"
                 onClick={connectDemoWallet}
                 disabled={isLoading}
-                title="Connect Testnet Funded Demo Account"
+                style={{ flex: 1 }}
+                title="Connect Testnet Funded Account"
               >
-                <Sparkles style={{ width: 16, height: 16, color: '#06b6d4' }} />
+                <Sparkles style={{ width: 15, height: 15, color: '#06b6d4' }} />
                 Demo Wallet
               </button>
             </div>
