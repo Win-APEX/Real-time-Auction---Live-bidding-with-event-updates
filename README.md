@@ -26,15 +26,25 @@ Traditional centralized online auctions suffer from:
 
 ## 📸 Application Screenshots
 
-> *Add your real application browser screenshots below when submitting:*
-
 ### 1. Wallet Connected State & Balance Displayed
-<!-- Add real screenshot of connected wallet & XLM balance here -->
-*(Shows Freighter connected with public address and live XLM balance in navigation header)*
+The connected Freighter wallet account public address (`GDTT...MJTX`), network badge (`TESTNET`), and live XLM balance (`9000.00 XLM`) are fetched via Stellar Horizon and displayed in the navigation header and profile dashboard.
 
-### 2. Successful Testnet Transaction & Result
-<!-- Add real screenshot of successful transaction result modal here -->
-*(Shows transaction feedback modal displaying confirmation state, transaction hash, and explorer link)*
+![Wallet Connected State & Balance Displayed](public/profile.png)
+
+### 2. Live Bidding Modal Drawer
+Interactive place bid modal with custom XLM input, quick percentage increase presets (+10%, +25%, +50%), balance verification, and Freighter transaction signing trigger.
+
+![Live Bidding Modal Drawer](public/bid_page.png)
+
+### 3. Step-by-Step Transaction Progress Pipeline
+Visual transaction state progress tracker modal rendering live ledger stages (`Constructing Soroban XDR Transaction -> Awaiting Wallet Authorization -> Submitting to Testnet RPC -> Ledger Settlement Confirmed`).
+
+![Step-by-Step Transaction Progress Pipeline](public/transaction_progress.png)
+
+### 4. Successful Testnet Transaction & Explorer Link
+When a transaction is confirmed on Stellar Soroban testnet, a confirmation modal displays the **Transaction Hash** (`eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092`), copy-to-clipboard trigger, and direct link to view the ledger record on **Stellar Expert Explorer**.
+
+![Successful Testnet Transaction Result](public/trasnaction_successful.png)
 
 ---
 
@@ -79,6 +89,11 @@ Traditional centralized online auctions suffer from:
  │       └── src/
  │           ├── lib.rs             # Soroban smart contract logic & events
  │           └── test.rs            # Rust unit tests (create, bid, outbid, end, errors)
+ ├── public/                        # Public assets & UI Screenshots
+ │   ├── profile.png                # Wallet connected & balance screenshot
+ │   ├── bid_page.png               # Bidding modal screenshot
+ │   ├── transaction_progress.png   # Transaction pipeline progress screenshot
+ │   └── trasnaction_successful.png # Confirmed transaction result screenshot
  ├── scripts/
  │   └── deploy.sh                  # Soroban testnet WASM build & deployment script
  ├── src/
@@ -88,7 +103,8 @@ Traditional centralized online auctions suffer from:
  │   │   ├── LiveActivityFeed.tsx   # Real-time event updates stream feed
  │   │   ├── BidModal.tsx           # Bidding drawer with presets & validation
  │   │   ├── CreateAuctionModal.tsx # New auction creation modal
- │   │   └── TxStatusModal.tsx      # Step-by-step transaction state & hash preview
+ │   │   ├── TxStatusModal.tsx      # Step-by-step transaction state & hash preview
+ │   │   └── ProfileView.tsx        # User profile dashboard & stats
  │   ├── context/
  │   │   └── WalletContext.tsx      # Freighter & Horizon state management
  │   ├── services/
@@ -175,7 +191,7 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 |---|---|---|
 | **Public GitHub Repo** | ✅ Complete | [GitHub Repository](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates) |
 | **Contract Deployed Address** | ✅ Complete | `CB6N36D2L2C5Y7Z4Q3V7K3W6N2M1K9L8P7O6I5U4Y3T2R1E0W` |
-| **Transaction Hash Sample** | ✅ Complete | `8e3a2b1c4f5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f` |
+| **Transaction Hash Sample** | ✅ Complete | `eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092` |
 | **CI/CD Pipeline** | ✅ Complete | [.github/workflows/ci.yml](file:///.github/workflows/ci.yml) |
 | **20+ Commits** | ✅ Complete | Verified in git log |
 | **Live Demo URL** | ✅ Complete | [Live Demo on Vercel/Netlify](https://real-time-auction-stellar.vercel.app) |
