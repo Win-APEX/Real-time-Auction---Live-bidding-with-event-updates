@@ -22,15 +22,15 @@ A production-grade, Web3 decentralized auction platform built on **Stellar Testn
 ## 📸 Level 3 Screenshots
 
 ### 1. Mobile Responsive UI
-![Mobile Responsive UI](public/mobile_ui.png)
-*(App viewport responsive on mobile devices with single-column layout, touch controls, and sticky header)*
+![Mobile Responsive UI](public/mobile_responsive.png)
+*(App viewport responsive on mobile devices with compact header bar, touch controls, and sticky header)*
 
 ### 2. CI/CD Pipeline Running (GitHub Actions)
 ![CI/CD Pipeline Running](public/cicd_pipeline.png)
 *(GitHub Actions tab showing automated Rust contract test, Vitest frontend test, and Vite build pipeline passing)*
 
 ### 3. Test Output (9 Passing Automated Tests)
-![Test Output Passing Tests](public/test_output.png)
+![Test Output Passing Tests](public/terminal_test.png)
 *(Terminal output showing 3 passing Rust Soroban smart contract tests + 6 passing Vitest frontend unit tests)*
 
 ### 4. Wallet Connected State & Balance Displayed
@@ -92,7 +92,7 @@ Traditional centralized online auctions suffer from:
 - [x] **Stellar Testnet Network**: Built and configured for Stellar Testnet RPC (`https://soroban-testnet.stellar.org:443`).
 - [x] **Live XLM Balance Handling**: Real-time XLM balance fetched from Horizon Testnet API (`https://horizon-testnet.stellar.org`).
 - [x] **Transaction Feedback**: Visual modal showing state transitions, transaction hashes, and Stellar Expert testnet links.
-- [x] **28+ Meaningful Commits**: Granular, structured commit history in repository.
+- [x] **30+ Meaningful Commits**: Granular, structured commit history in repository.
 
 ### Level 2 Requirements ✅
 - [x] **3+ Error Types Handled**:
@@ -125,14 +125,14 @@ Traditional centralized online auctions suffer from:
 |---|---|---|
 | **Public GitHub Repository** | ✅ Met | [github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates) |
 | **README with Complete Documentation** | ✅ Met | Includes problem statement, setup, architecture, and testing results |
-| **Minimum 10+ Meaningful Commits** | ✅ Met | **28 Commits** in repository history |
+| **Minimum 10+ Meaningful Commits** | ✅ Met | **30 Commits** in repository history |
 | **Live Demo Link (Vercel)** | ✅ Met | [real-time-auction-live-bidding-with.vercel.app](https://real-time-auction-live-bidding-with.vercel.app/) |
 | **Contract Deployment Address** | ✅ Met | `CB6N36D2L2C5Y7Z4Q3V7K3W6N2M1K9L8P7O6I5U4Y3T2R1E0W` |
 | **Transaction Hash of Contract Call** | ✅ Met | [`eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092`](https://stellar.expert/explorer/testnet/tx/eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092) |
-| **Screenshot: Mobile Responsive UI** | ✅ Met | Linked in `public/mobile_ui.png` |
+| **Screenshot: Mobile Responsive UI** | ✅ Met | Linked in `public/mobile_responsive.png` |
 | **Screenshot: CI/CD Pipeline Running** | ✅ Met | Linked in `public/cicd_pipeline.png` |
-| **Screenshot: Test Output (3+ Passing Tests)** | ✅ Met | Linked in `public/test_output.png` |
-| **Demo Video Link (1-2 mins)** | ⚠️ Required | Record 1-2 min video of live app & paste URL above |
+| **Screenshot: Test Output (3+ Passing Tests)** | ✅ Met | Linked in `public/terminal_test.png` |
+| **Demo Video Link (1-2 mins)** | ⚠️ User Action | Record 1-2 min video of live app & paste URL above |
 
 ---
 
