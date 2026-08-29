@@ -308,23 +308,23 @@ export const FeedbackPage: React.FC = () => {
               href="/user_feedback_dataset.csv"
               download="user_feedback_dataset.csv"
               className="btn btn-secondary"
-              style={{ padding: '0.65rem 1.1rem', fontSize: '0.85rem', borderColor: 'rgba(0,217,126,0.3)', color: 'var(--accent-emerald)', width: '100%', justifyContent: 'center' }}
+              style={{ padding: '0.65rem 1.1rem', fontSize: '0.85rem', borderColor: 'rgba(0,217,126,0.3)', color: 'var(--accent-emerald)' }}
             >
               <Download style={{ width: 15, height: 15 }} />
               Export CSV Dataset
             </a>
 
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.4)', padding: '0.75rem 1.25rem', borderRadius: 18, border: '1px solid rgba(0,217,126,0.25)', width: '100%' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.4)', padding: '0.65rem 1.1rem', borderRadius: 18, border: '1px solid rgba(0,217,126,0.25)' }}>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', lineHeight: 1, fontFamily: 'var(--font-mono)' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#fff', lineHeight: 1, fontFamily: 'var(--font-mono)' }}>
                   {avgRating}
                 </div>
                 <div style={{ display: 'flex', gap: 2, margin: '0.2rem 0 0.1rem', justifyContent: 'center' }}>
                   {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} style={{ width: 12, height: 12, fill: '#fbbf24', color: '#fbbf24' }} />
+                    <Star key={star} style={{ width: 11, height: 11, fill: '#fbbf24', color: '#fbbf24' }} />
                   ))}
                 </div>
-                <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   {totalCount} Verified Testers
                 </span>
               </div>
