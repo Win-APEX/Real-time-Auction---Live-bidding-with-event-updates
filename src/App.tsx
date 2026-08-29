@@ -12,7 +12,6 @@ import { AuctionItem, SorobanEvent, TxStatus } from './types';
 import { INITIAL_AUCTIONS, invokeContractFunction } from './services/soroban';
 import { eventStreamer } from './services/events';
 import { Radio, Search, Sparkles, TrendingUp, Layers, Activity, ShieldCheck, Zap } from 'lucide-react';
-import { FeedbackWidget } from './components/FeedbackWidget';
 
 const Dashboard: React.FC = () => {
   const { isConnected, publicKey, refreshBalance } = useWallet();
@@ -288,7 +287,6 @@ const Dashboard: React.FC = () => {
         <CreateAuctionModal onClose={() => setIsCreateModalOpen(false)} onCreateAuction={handleCreateAuctionSubmit} />
       )}
       <TxStatusModal status={txStatus} onClose={() => setTxStatus(null)} />
-      <FeedbackWidget userPublicKey={publicKey || undefined} />
     </div>
   );
 };
