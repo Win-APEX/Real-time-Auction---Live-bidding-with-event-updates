@@ -254,13 +254,13 @@ export const FeedbackPage: React.FC = () => {
 
   const formatAddr = (addr: string) =>
     addr && addr !== 'anonymous'
-      ? `${addr.substring(0, 6)}…${addr.substring(addr.length - 6)}`
+      ? `${addr.substring(0, 5)}…${addr.substring(addr.length - 4)}`
       : 'Unconnected Wallet';
 
   const formatTime = (isoStr: string) => {
     try {
       const d = new Date(isoStr);
-      return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
     } catch {
       return isoStr;
     }
@@ -286,19 +286,19 @@ export const FeedbackPage: React.FC = () => {
   const activeRating = hoverRating || rating;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%', maxWidth: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '100%', maxWidth: '100%', minWidth: 0, boxSizing: 'border-box' }}>
       {/* Hero Banner */}
       <section className="glass-panel feedback-hero-banner">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.25rem' }}>
-          <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.25rem 0.75rem', borderRadius: 9999, background: 'rgba(0, 217, 126, 0.15)', border: '1px solid rgba(0, 217, 126, 0.3)', fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-emerald)', letterSpacing: '0.07em', fontFamily: 'var(--font-mono)', marginBottom: '0.65rem' }}>
-              <Sparkles style={{ width: 12, height: 12 }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', width: '100%', minWidth: 0 }}>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.2rem 0.65rem', borderRadius: 9999, background: 'rgba(0, 217, 126, 0.15)', border: '1px solid rgba(0, 217, 126, 0.3)', fontSize: '0.7rem', fontWeight: 700, color: 'var(--accent-emerald)', letterSpacing: '0.07em', fontFamily: 'var(--font-mono)', marginBottom: '0.5rem', maxWidth: '100%' }}>
+              <Sparkles style={{ width: 11, height: 11, flexShrink: 0 }} />
               USER ONBOARDING & FEEDBACK DATASET
             </div>
-            <h1 style={{ fontSize: 'clamp(1.4rem, 4vw, 2.4rem)', fontWeight: 900, color: '#fff', marginBottom: '0.4rem', lineHeight: 1.15 }}>
+            <h1 style={{ fontSize: 'clamp(1.3rem, 3.8vw, 2.2rem)', fontWeight: 900, color: '#fff', marginBottom: '0.35rem', lineHeight: 1.15 }}>
               Community Feedback Hub
             </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', maxWidth: 620, lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', maxWidth: 620, lineHeight: 1.45 }}>
               Authentic reviews and testnet wallet interaction feedback from 12+ active community testers. All entries sync directly with MongoDB Atlas and are exported as a CSV dataset.
             </p>
           </div>
@@ -308,23 +308,23 @@ export const FeedbackPage: React.FC = () => {
               href="/user_feedback_dataset.csv"
               download="user_feedback_dataset.csv"
               className="btn btn-secondary"
-              style={{ padding: '0.65rem 1.1rem', fontSize: '0.85rem', borderColor: 'rgba(0,217,126,0.3)', color: 'var(--accent-emerald)' }}
+              style={{ padding: '0.6rem 1rem', fontSize: '0.82rem', borderColor: 'rgba(0,217,126,0.3)', color: 'var(--accent-emerald)' }}
             >
-              <Download style={{ width: 15, height: 15 }} />
+              <Download style={{ width: 14, height: 14 }} />
               Export CSV Dataset
             </a>
 
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.4)', padding: '0.65rem 1.1rem', borderRadius: 18, border: '1px solid rgba(0,217,126,0.25)' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.4)', padding: '0.6rem 1rem', borderRadius: 16, border: '1px solid rgba(0,217,126,0.25)' }}>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#fff', lineHeight: 1, fontFamily: 'var(--font-mono)' }}>
+                <div style={{ fontSize: '1.7rem', fontWeight: 900, color: '#fff', lineHeight: 1, fontFamily: 'var(--font-mono)' }}>
                   {avgRating}
                 </div>
-                <div style={{ display: 'flex', gap: 2, margin: '0.2rem 0 0.1rem', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', gap: 2, margin: '0.15rem 0 0.1rem', justifyContent: 'center' }}>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star key={star} style={{ width: 11, height: 11, fill: '#fbbf24', color: '#fbbf24' }} />
                   ))}
                 </div>
-                <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <span style={{ fontSize: '0.62rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   {totalCount} Verified Testers
                 </span>
               </div>
@@ -334,21 +334,21 @@ export const FeedbackPage: React.FC = () => {
       </section>
 
       {/* Mobile Segmented Control Switcher (< 900px) */}
-      <div className="mobile-only-control" style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.7)', padding: 4, borderRadius: 14, border: '1px solid var(--border-subtle)', gap: 4 }}>
+      <div className="mobile-only-control" style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.7)', padding: 4, borderRadius: 14, border: '1px solid var(--border-subtle)', gap: 4, width: '100%', boxSizing: 'border-box' }}>
         <button
           className={`btn ${mobileSubTab === 'reviews' ? 'btn-primary' : 'btn-secondary'}`}
           onClick={() => setMobileSubTab('reviews')}
-          style={{ flex: 1, padding: '0.55rem', fontSize: '0.84rem' }}
+          style={{ flex: 1, padding: '0.55rem 0.5rem', fontSize: '0.82rem' }}
         >
-          <Layers style={{ width: 15, height: 15 }} />
+          <Layers style={{ width: 14, height: 14 }} />
           Reviews ({filteredFeedbacks.length})
         </button>
         <button
           className={`btn ${mobileSubTab === 'form' ? 'btn-primary' : 'btn-secondary'}`}
           onClick={() => setMobileSubTab('form')}
-          style={{ flex: 1, padding: '0.55rem', fontSize: '0.84rem' }}
+          style={{ flex: 1, padding: '0.55rem 0.5rem', fontSize: '0.82rem' }}
         >
-          <PenTool style={{ width: 15, height: 15 }} />
+          <PenTool style={{ width: 14, height: 14 }} />
           Write Review
         </button>
       </div>
@@ -359,19 +359,19 @@ export const FeedbackPage: React.FC = () => {
         {/* Submit Feedback Form Card */}
         <div className={`glass-panel feedback-form-card ${mobileSubTab === 'form' ? 'mobile-show' : 'mobile-hide'}`}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(0, 217, 126, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-emerald)', flexShrink: 0 }}>
-              <MessageSquare style={{ width: 18, height: 18 }} />
+            <div style={{ width: 34, height: 34, borderRadius: 10, background: 'rgba(0, 217, 126, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-emerald)', flexShrink: 0 }}>
+              <MessageSquare style={{ width: 16, height: 16 }} />
             </div>
             <div>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff' }}>Submit Review</h3>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Syncs to MongoDB Atlas & CSV Dataset</p>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff' }}>Submit Review</h3>
+              <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Syncs to MongoDB Atlas & CSV Dataset</p>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem', width: '100%' }}>
             {/* Tester Name */}
             <div>
-              <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.35rem' }}>
+              <label style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.3rem' }}>
                 Tester Name
               </label>
               <input
@@ -385,7 +385,7 @@ export const FeedbackPage: React.FC = () => {
 
             {/* Email */}
             <div>
-              <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.35rem' }}>
+              <label style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.3rem' }}>
                 Email <span style={{ opacity: 0.5 }}>(Optional)</span>
               </label>
               <input
@@ -399,10 +399,10 @@ export const FeedbackPage: React.FC = () => {
 
             {/* Rating */}
             <div>
-              <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.35rem' }}>
+              <label style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.3rem' }}>
                 Rating (1–5 Stars)
               </label>
-              <div style={{ display: 'flex', gap: '0.4rem', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', padding: '0.6rem 0.8rem', borderRadius: 12, border: '1px solid var(--border-subtle)' }}>
+              <div style={{ display: 'flex', gap: '0.3rem', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', padding: '0.5rem 0.6rem', borderRadius: 12, border: '1px solid var(--border-subtle)', width: '100%' }}>
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -410,9 +410,9 @@ export const FeedbackPage: React.FC = () => {
                     onClick={() => setRating(star)}
                     onMouseEnter={() => setHoverRating(star)}
                     onMouseLeave={() => setHoverRating(0)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, transition: 'transform 0.15s ease', transform: activeRating >= star ? 'scale(1.2)' : 'scale(1)' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 3, transition: 'transform 0.15s ease', transform: activeRating >= star ? 'scale(1.15)' : 'scale(1)' }}
                   >
-                    <Star style={{ width: 24, height: 24, fill: activeRating >= star ? '#fbbf24' : 'transparent', color: activeRating >= star ? '#fbbf24' : 'rgba(255,255,255,0.2)' }} />
+                    <Star style={{ width: 22, height: 22, fill: activeRating >= star ? '#fbbf24' : 'transparent', color: activeRating >= star ? '#fbbf24' : 'rgba(255,255,255,0.2)' }} />
                   </button>
                 ))}
               </div>
@@ -420,7 +420,7 @@ export const FeedbackPage: React.FC = () => {
 
             {/* Category Dropdown */}
             <div>
-              <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.35rem' }}>
+              <label style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.3rem' }}>
                 Feature Tested / Category
               </label>
               <select
@@ -439,7 +439,7 @@ export const FeedbackPage: React.FC = () => {
 
             {/* Comment Area */}
             <div>
-              <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.35rem' }}>
+              <label style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.3rem' }}>
                 Feedback Comment
               </label>
               <textarea
@@ -449,29 +449,29 @@ export const FeedbackPage: React.FC = () => {
                 rows={3}
                 maxLength={500}
                 className="input-field"
-                style={{ resize: 'vertical', minHeight: 80 }}
+                style={{ resize: 'vertical', minHeight: 75 }}
                 required
               />
-              <div style={{ textAlign: 'right', fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: '0.2rem' }}>
+              <div style={{ textAlign: 'right', fontSize: '0.68rem', color: 'var(--text-dim)', marginTop: '0.2rem' }}>
                 {comment.length}/500
               </div>
             </div>
 
             {/* Connected Wallet Info */}
-            <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.03)', padding: '0.5rem 0.75rem', borderRadius: 10 }}>
-              <ShieldCheck style={{ width: 14, height: 14, color: 'var(--accent-emerald)', flexShrink: 0 }} />
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Wallet: <strong className="font-mono">{formatAddr(publicKey || 'anonymous')}</strong></span>
+            <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.03)', padding: '0.45rem 0.65rem', borderRadius: 10, minWidth: 0 }}>
+              <ShieldCheck style={{ width: 13, height: 13, color: 'var(--accent-emerald)', flexShrink: 0 }} />
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Wallet: <strong className="font-mono">{formatAddr(publicKey || 'anonymous')}</strong></span>
             </div>
 
             {error && (
-              <div style={{ padding: '0.6rem 0.85rem', background: 'rgba(251,75,110,0.12)', border: '1px solid rgba(251,75,110,0.3)', borderRadius: 10, color: 'var(--accent-rose)', fontSize: '0.82rem' }}>
+              <div style={{ padding: '0.55rem 0.75rem', background: 'rgba(251,75,110,0.12)', border: '1px solid rgba(251,75,110,0.3)', borderRadius: 10, color: 'var(--accent-rose)', fontSize: '0.8rem' }}>
                 {error}
               </div>
             )}
 
             {submitted ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem', background: 'rgba(0, 217, 126, 0.15)', border: '1px solid rgba(0, 217, 126, 0.4)', borderRadius: 12, color: 'var(--accent-emerald)', fontWeight: 700, fontSize: '0.9rem', textAlign: 'center' }}>
-                <CheckCircle style={{ width: 18, height: 18 }} />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.7rem', background: 'rgba(0, 217, 126, 0.15)', border: '1px solid rgba(0, 217, 126, 0.4)', borderRadius: 12, color: 'var(--accent-emerald)', fontWeight: 700, fontSize: '0.88rem', textAlign: 'center' }}>
+                <CheckCircle style={{ width: 16, height: 16 }} />
                 Feedback saved to MongoDB!
               </div>
             ) : (
@@ -479,9 +479,9 @@ export const FeedbackPage: React.FC = () => {
                 type="submit"
                 className="btn btn-primary"
                 disabled={isSubmitting}
-                style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', fontSize: '0.92rem' }}
+                style={{ width: '100%', justifyContent: 'center', padding: '0.7rem', fontSize: '0.88rem' }}
               >
-                <Send style={{ width: 16, height: 16 }} />
+                <Send style={{ width: 15, height: 15 }} />
                 {isSubmitting ? 'Saving to Database...' : 'Submit Feedback'}
               </button>
             )}
@@ -492,12 +492,12 @@ export const FeedbackPage: React.FC = () => {
         <div className={`feedback-list-container ${mobileSubTab === 'reviews' ? 'mobile-show' : 'mobile-hide'}`}>
           {/* Search & Filter Bar */}
           <div className="search-filter-bar">
-            <div className="hide-scrollbar" style={{ display: 'flex', gap: '0.4rem', overflowX: 'auto', paddingBottom: 4, width: '100%' }}>
+            <div className="hide-scrollbar" style={{ display: 'flex', gap: '0.35rem', overflowX: 'auto', paddingBottom: 4, width: '100%', maxWidth: '100%' }}>
               {['all', 'Real-time Stream', 'UI/UX Design', 'Smart Contract Escrow', 'Freighter Integration'].map((cat) => (
                 <button
                   key={cat}
                   className={`btn ${selectedFilterCategory === cat ? 'btn-primary' : 'btn-secondary'}`}
-                  style={{ padding: '0.4rem 0.85rem', fontSize: '0.78rem', textTransform: 'capitalize', flexShrink: 0 }}
+                  style={{ padding: '0.35rem 0.75rem', fontSize: '0.76rem', textTransform: 'capitalize', flexShrink: 0 }}
                   onClick={() => setSelectedFilterCategory(cat)}
                 >
                   {cat}
@@ -506,22 +506,22 @@ export const FeedbackPage: React.FC = () => {
             </div>
 
             <div className="search-input-wrapper">
-              <Search style={{ width: 14, height: 14, position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              <Search style={{ width: 13, height: 13, position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               <input
                 type="text"
                 className="input-field"
                 placeholder="Search reviews..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ paddingLeft: 32, paddingRight: 10, fontSize: '0.82rem' }}
+                style={{ paddingLeft: 30, paddingRight: 8, fontSize: '0.8rem' }}
               />
             </div>
           </div>
 
           {/* Feedback Cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', width: '100%', maxWidth: '100%', minWidth: 0 }}>
             {filteredFeedbacks.length === 0 ? (
-              <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+              <div className="glass-panel" style={{ padding: '2.5rem 1rem', textAlign: 'center', color: 'var(--text-muted)' }}>
                 No feedback entries found matching your filter.
               </div>
             ) : (
@@ -530,33 +530,38 @@ export const FeedbackPage: React.FC = () => {
                   key={fb.id}
                   className="glass-panel"
                   style={{
-                    padding: '1.25rem',
+                    padding: '1.1rem',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0.85rem',
+                    gap: '0.75rem',
                     background: 'linear-gradient(145deg, rgba(10, 15, 30, 0.9) 0%, rgba(5, 10, 20, 0.95) 100%)',
                     border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: 18,
+                    borderRadius: 16,
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
                     width: '100%',
                     maxWidth: '100%',
+                    minWidth: 0,
+                    boxSizing: 'border-box',
                   }}
                 >
-                  {/* Card Top: Author, Category & Rating */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem', width: '100%' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', maxWidth: '100%' }}>
-                      <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg, #00d97e 0%, #00c8e8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 900, fontSize: '0.95rem', flexShrink: 0 }}>
+                  {/* Card Header: Author avatar + info (left) & Stars (right) */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem', width: '100%', minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', minWidth: 0, flex: 1 }}>
+                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg, #00d97e 0%, #00c8e8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 900, fontSize: '0.9rem', flexShrink: 0 }}>
                         {fb.testerName ? fb.testerName.charAt(0) : 'T'}
                       </div>
-                      <div style={{ minWidth: 0 }}>
-                        <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-                          <span>{fb.testerName}</span>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', minWidth: 0 }}>
+                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>{fb.testerName}</span>
                           {fb.category && (
-                            <span className="tag-cyan" style={{ fontSize: '0.65rem' }}>{fb.category}</span>
+                            <span className="tag-cyan" style={{ fontSize: '0.62rem' }}>{fb.category}</span>
                           )}
                         </div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginTop: 2, wordBreak: 'break-all' }}>
-                          {fb.email && <span>{fb.email} · </span>}
+
+                        {/* Responsive wrapped metadata line */}
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'flex', flexWrap: 'wrap', gap: '0.3rem', alignItems: 'center', marginTop: 2, minWidth: 0, wordBreak: 'break-all' }}>
+                          {fb.email && <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>{fb.email}</span>}
+                          {fb.email && <span>·</span>}
                           <span className="font-mono">{formatAddr(fb.walletAddress)}</span>
                           <span>·</span>
                           <span>{formatTime(fb.timestamp)}</span>
@@ -564,14 +569,14 @@ export const FeedbackPage: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Stars */}
-                    <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
+                    {/* Star Rating */}
+                    <div style={{ display: 'flex', gap: 2, flexShrink: 0, paddingTop: 2 }}>
                       {[1, 2, 3, 4, 5].map((s) => (
                         <Star
                           key={s}
                           style={{
-                            width: 13,
-                            height: 13,
+                            width: 12,
+                            height: 12,
                             fill: s <= fb.rating ? '#fbbf24' : 'transparent',
                             color: s <= fb.rating ? '#fbbf24' : 'rgba(255,255,255,0.2)',
                           }}
@@ -580,19 +585,19 @@ export const FeedbackPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Comment */}
-                  <p style={{ color: 'var(--text-main)', fontSize: '0.88rem', lineHeight: 1.55, wordBreak: 'break-word' }}>
+                  {/* Comment Text */}
+                  <p style={{ color: 'var(--text-primary)', fontSize: '0.86rem', lineHeight: 1.5, wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
                     "{fb.comment}"
                   </p>
 
-                  {/* Transaction Link if present */}
+                  {/* Verifiable Transaction Hash Link */}
                   {fb.transactionHash && (
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '0.4rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '0.35rem', borderTop: '1px solid rgba(255,255,255,0.05)', width: '100%', minWidth: 0 }}>
                       <a
                         href={`https://stellar.expert/explorer/testnet/tx/${fb.transactionHash}`}
                         target="_blank"
                         rel="noreferrer"
-                        style={{ color: 'var(--accent-cyan)', fontSize: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: 3, textDecoration: 'none', wordBreak: 'break-all' }}
+                        style={{ color: 'var(--accent-cyan)', fontSize: '0.73rem', display: 'inline-flex', alignItems: 'center', gap: 3, textDecoration: 'none', wordBreak: 'break-all', overflowWrap: 'anywhere' }}
                       >
                         Verifiable Testnet Tx <ExternalLink style={{ width: 10, height: 10, flexShrink: 0 }} />
                       </a>
