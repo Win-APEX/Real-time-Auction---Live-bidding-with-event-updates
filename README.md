@@ -99,8 +99,10 @@ Based on direct user feedback from our initial testing cohorts, we made key prod
 ### 7. Transaction Confirmed on Testnet
 ![Transaction Confirmed](public/trasnaction_successful.png)
 
-### 8. Analytics & Monitoring Setup (Vercel Analytics + Sentry Error Tracking)
-- **Vercel Analytics Integration**: Integrated `@vercel/analytics/react` directly in [`src/main.tsx`](src/main.tsx) to track real-time user sessions, pageviews, and wallet interaction events.
+### 8. Analytics & Monitoring Dashboard (Vercel Web Analytics)
+![Vercel Web Analytics Dashboard](public/ANALYTICS.png)
+
+- **Vercel Web Analytics**: Integrated `@vercel/analytics/react` directly in [`src/main.tsx`](src/main.tsx) to track real-time user sessions, pageviews, geographic distribution, and wallet interaction events.
 - **Sentry Error Monitoring**: Integrated `@sentry/react` in [`src/main.tsx`](src/main.tsx) with custom error boundaries, session replay, and error filtering for production crash reports.
 
 ---
@@ -159,6 +161,7 @@ test result: ok. 3 passed; 0 failed; 0 ignored
 | **Screenshot: Mobile responsive UI** | ✅ | `public/mobile_responsive.png` |
 | **Screenshot: CI/CD pipeline running** | ✅ | `public/cicd_pipeline.png` |
 | **Screenshot: Test output 3+ passing** | ✅ | `public/terminal_test.png` |
+| **Screenshot: Monitoring & Analytics Dashboard** | ✅ | `public/ANALYTICS.png` |
 | **Demo video link (1–2 minutes)** | ✅ | [https://youtu.be/VvRQZQywZT8](https://youtu.be/VvRQZQywZT8) |
 | **Proof of 10+ user wallet interactions** | ✅ | Documented tester table + [`public/user_feedback_dataset.csv`](public/user_feedback_dataset.csv) |
 | **Basic user feedback summary** | ✅ | MongoDB Atlas (`StellarBid.UserFeedback`) + Google Form link + Feedback Modal |
