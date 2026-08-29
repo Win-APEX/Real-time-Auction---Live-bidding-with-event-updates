@@ -286,10 +286,10 @@ export const FeedbackPage: React.FC = () => {
   const activeRating = hoverRating || rating;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '100%', maxWidth: '100%', minWidth: 0, boxSizing: 'border-box' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '100%', maxWidth: '100%', minWidth: 0, boxSizing: 'border-box', overflowX: 'hidden' }}>
       {/* Hero Banner */}
       <section className="glass-panel feedback-hero-banner">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', width: '100%', minWidth: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', width: '100%', minWidth: 0, boxSizing: 'border-box' }}>
           <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.2rem 0.65rem', borderRadius: 9999, background: 'rgba(0, 217, 126, 0.15)', border: '1px solid rgba(0, 217, 126, 0.3)', fontSize: '0.7rem', fontWeight: 700, color: 'var(--accent-emerald)', letterSpacing: '0.07em', fontFamily: 'var(--font-mono)', marginBottom: '0.5rem', maxWidth: '100%' }}>
               <Sparkles style={{ width: 11, height: 11, flexShrink: 0 }} />
@@ -489,10 +489,10 @@ export const FeedbackPage: React.FC = () => {
         </div>
 
         {/* Feedback List Section */}
-        <div className={`feedback-list-container ${mobileSubTab === 'reviews' ? 'mobile-show' : 'mobile-hide'}`}>
+        <div className={`feedback-list-container ${mobileSubTab === 'reviews' ? 'mobile-show' : 'mobile-hide'}`} style={{ minWidth: 0, maxWidth: '100%', width: '100%', boxSizing: 'border-box', overflowX: 'hidden' }}>
           {/* Search & Filter Bar */}
-          <div className="search-filter-bar">
-            <div className="hide-scrollbar" style={{ display: 'flex', gap: '0.35rem', overflowX: 'auto', paddingBottom: 4, width: '100%', maxWidth: '100%' }}>
+          <div className="search-filter-bar" style={{ minWidth: 0, maxWidth: '100%', width: '100%', boxSizing: 'border-box' }}>
+            <div className="hide-scrollbar" style={{ display: 'flex', gap: '0.35rem', overflowX: 'auto', paddingBottom: 4, width: '100%', maxWidth: '100%', minWidth: 0 }}>
               {['all', 'Real-time Stream', 'UI/UX Design', 'Smart Contract Escrow', 'Freighter Integration'].map((cat) => (
                 <button
                   key={cat}
@@ -505,7 +505,7 @@ export const FeedbackPage: React.FC = () => {
               ))}
             </div>
 
-            <div className="search-input-wrapper">
+            <div className="search-input-wrapper" style={{ minWidth: 0, maxWidth: '100%' }}>
               <Search style={{ width: 13, height: 13, position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               <input
                 type="text"
@@ -519,7 +519,7 @@ export const FeedbackPage: React.FC = () => {
           </div>
 
           {/* Feedback Cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', width: '100%', maxWidth: '100%', minWidth: 0 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', width: '100%', maxWidth: '100%', minWidth: 0, boxSizing: 'border-box' }}>
             {filteredFeedbacks.length === 0 ? (
               <div className="glass-panel" style={{ padding: '2.5rem 1rem', textAlign: 'center', color: 'var(--text-muted)' }}>
                 No feedback entries found matching your filter.
@@ -530,10 +530,10 @@ export const FeedbackPage: React.FC = () => {
                   key={fb.id}
                   className="glass-panel"
                   style={{
-                    padding: '1.1rem',
+                    padding: '1rem 0.85rem',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0.75rem',
+                    gap: '0.65rem',
                     background: 'linear-gradient(145deg, rgba(10, 15, 30, 0.9) 0%, rgba(5, 10, 20, 0.95) 100%)',
                     border: '1px solid rgba(255, 255, 255, 0.08)',
                     borderRadius: 16,
@@ -542,24 +542,25 @@ export const FeedbackPage: React.FC = () => {
                     maxWidth: '100%',
                     minWidth: 0,
                     boxSizing: 'border-box',
+                    overflowX: 'hidden',
                   }}
                 >
                   {/* Card Header: Author avatar + info (left) & Stars (right) */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem', width: '100%', minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', minWidth: 0, flex: 1 }}>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg, #00d97e 0%, #00c8e8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 900, fontSize: '0.9rem', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.4rem', width: '100%', minWidth: 0, boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0, flex: 1, maxWidth: 'calc(100% - 75px)' }}>
+                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #00d97e 0%, #00c8e8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 900, fontSize: '0.85rem', flexShrink: 0 }}>
                         {fb.testerName ? fb.testerName.charAt(0) : 'T'}
                       </div>
-                      <div style={{ minWidth: 0, flex: 1 }}>
-                        <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', minWidth: 0 }}>
+                      <div style={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
+                        <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap', minWidth: 0 }}>
                           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>{fb.testerName}</span>
                           {fb.category && (
-                            <span className="tag-cyan" style={{ fontSize: '0.62rem' }}>{fb.category}</span>
+                            <span className="tag-cyan" style={{ fontSize: '0.6rem', padding: '0.1rem 0.4rem' }}>{fb.category}</span>
                           )}
                         </div>
 
                         {/* Responsive wrapped metadata line */}
-                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'flex', flexWrap: 'wrap', gap: '0.3rem', alignItems: 'center', marginTop: 2, minWidth: 0, wordBreak: 'break-all' }}>
+                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'flex', flexWrap: 'wrap', gap: '0.25rem', alignItems: 'center', marginTop: 2, minWidth: 0, wordBreak: 'break-all' }}>
                           {fb.email && <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>{fb.email}</span>}
                           {fb.email && <span>·</span>}
                           <span className="font-mono">{formatAddr(fb.walletAddress)}</span>
@@ -570,13 +571,13 @@ export const FeedbackPage: React.FC = () => {
                     </div>
 
                     {/* Star Rating */}
-                    <div style={{ display: 'flex', gap: 2, flexShrink: 0, paddingTop: 2 }}>
+                    <div style={{ display: 'flex', gap: 1, flexShrink: 0, paddingTop: 2, width: 70, justifyContent: 'flex-end' }}>
                       {[1, 2, 3, 4, 5].map((s) => (
                         <Star
                           key={s}
                           style={{
-                            width: 12,
-                            height: 12,
+                            width: 11,
+                            height: 11,
                             fill: s <= fb.rating ? '#fbbf24' : 'transparent',
                             color: s <= fb.rating ? '#fbbf24' : 'rgba(255,255,255,0.2)',
                           }}
@@ -586,18 +587,18 @@ export const FeedbackPage: React.FC = () => {
                   </div>
 
                   {/* Comment Text */}
-                  <p style={{ color: 'var(--text-primary)', fontSize: '0.86rem', lineHeight: 1.5, wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+                  <p style={{ color: 'var(--text-primary)', fontSize: '0.84rem', lineHeight: 1.48, wordBreak: 'break-word', overflowWrap: 'break-word', width: '100%', maxWidth: '100%', minWidth: 0, boxSizing: 'border-box', margin: 0 }}>
                     "{fb.comment}"
                   </p>
 
                   {/* Verifiable Transaction Hash Link */}
                   {fb.transactionHash && (
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '0.35rem', borderTop: '1px solid rgba(255,255,255,0.05)', width: '100%', minWidth: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '0.3rem', borderTop: '1px solid rgba(255,255,255,0.05)', width: '100%', minWidth: 0, boxSizing: 'border-box' }}>
                       <a
                         href={`https://stellar.expert/explorer/testnet/tx/${fb.transactionHash}`}
                         target="_blank"
                         rel="noreferrer"
-                        style={{ color: 'var(--accent-cyan)', fontSize: '0.73rem', display: 'inline-flex', alignItems: 'center', gap: 3, textDecoration: 'none', wordBreak: 'break-all', overflowWrap: 'anywhere' }}
+                        style={{ color: 'var(--accent-cyan)', fontSize: '0.72rem', display: 'inline-flex', alignItems: 'center', gap: 3, textDecoration: 'none', wordBreak: 'break-all', overflowWrap: 'anywhere' }}
                       >
                         Verifiable Testnet Tx <ExternalLink style={{ width: 10, height: 10, flexShrink: 0 }} />
                       </a>
