@@ -355,6 +355,43 @@ body::before {
   width: 100%;
 }
 
+/* Feedback Page Styles */
+.feedback-hero-banner {
+  padding: 2.25rem;
+  background: linear-gradient(135deg, rgba(8, 14, 28, 0.98) 0%, rgba(0, 217, 126, 0.12) 60%, rgba(0, 200, 232, 0.1) 100%);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.feedback-hero-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.feedback-form-card {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: sticky;
+  top: 5rem;
+}
+
+.search-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 240px;
+}
+
 /* Form Controls */
 .input-field {
   width: 100%;
@@ -427,6 +464,21 @@ body::before {
   }
   .mobile-menu-drawer {
     display: flex !important;
+  }
+  .feedback-hero-banner {
+    padding: 1.35rem 1rem;
+  }
+  .feedback-hero-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .feedback-form-card {
+    position: static !important;
+    padding: 1.25rem;
+  }
+  .search-input-wrapper {
+    width: 100% !important;
   }
 }
 
