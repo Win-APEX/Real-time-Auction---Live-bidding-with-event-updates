@@ -107,7 +107,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange, onCreat
 
                 <button
                   className="btn btn-primary"
-                  onClick={onCreateAuctionClick}
+                  onClick={() => {
+                    if (!isConnected) connectDemoWallet();
+                    onCreateAuctionClick();
+                  }}
                 >
                   <PlusCircle style={{ width: 16, height: 16 }} />
                   Create Listing
@@ -123,14 +126,21 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange, onCreat
                 </button>
               </>
             ) : (
-              <div style={{ display: 'flex', gap: '0.65rem' }}>
-                <button className="btn btn-primary" onClick={connectWallet} disabled={isLoading}>
+              <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    if (!isConnected) connectDemoWallet();
+                    onCreateAuctionClick();
+                  }}
+                >
+                  <PlusCircle style={{ width: 16, height: 16 }} />
+                  Create Listing
+                </button>
+
+                <button className="btn btn-secondary" onClick={connectWallet} disabled={isLoading}>
                   <Wallet style={{ width: 16, height: 16 }} />
                   {isLoading ? 'Connecting...' : 'Connect Freighter'}
-                </button>
-                <button className="btn btn-secondary" onClick={connectDemoWallet} disabled={isLoading}>
-                  <Sparkles style={{ width: 15, height: 15, color: 'var(--accent-cyan)' }} />
-                  Demo Wallet
                 </button>
               </div>
             )}

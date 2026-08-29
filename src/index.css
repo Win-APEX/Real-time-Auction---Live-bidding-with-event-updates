@@ -87,6 +87,45 @@ body::before {
   border-color: rgba(255, 255, 255, 0.14);
 }
 
+/* Modal Backdrop & Content */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 4, 8, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: modal-fade-in 0.2s ease-out;
+}
+
+.modal-content {
+  background: linear-gradient(145deg, #0d1320 0%, #080d18 100%);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: var(--shadow-lg), 0 0 32px rgba(16, 185, 129, 0.12);
+  animation: modal-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+  color: var(--text-primary);
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-slide-up {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 /* Header Navbar */
 .header {
   position: sticky;
@@ -372,10 +411,7 @@ body::before {
   display: flex;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Responsive Media Queries (Mobile, Tablet, Large Desktop)
-   ───────────────────────────────────────────────────────────── */
-
+/* Responsive Media Queries */
 @media (max-width: 1100px) {
   .dashboard-layout {
     grid-template-columns: 1fr;
