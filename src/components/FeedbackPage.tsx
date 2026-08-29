@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useWallet } from '../context/WalletContext';
-import { Star, MessageSquare, Send, CheckCircle, Search, ShieldCheck, ExternalLink, Sparkles, Download } from 'lucide-react';
+import { Star, MessageSquare, Send, CheckCircle, Search, ShieldCheck, ExternalLink, Sparkles, Download, Layers, PenTool } from 'lucide-react';
 
 export interface FeedbackItem {
   id: string;
@@ -182,6 +182,9 @@ export const FeedbackPage: React.FC = () => {
   // Filter State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilterCategory, setSelectedFilterCategory] = useState<string>('all');
+  
+  // Mobile View Toggle State ('reviews' | 'form')
+  const [mobileSubTab, setMobileSubTab] = useState<'reviews' | 'form'>('reviews');
 
   const fetchFeedbacks = async () => {
     try {
@@ -238,7 +241,10 @@ export const FeedbackPage: React.FC = () => {
       setEmail('');
       fetchFeedbacks();
 
-      setTimeout(() => setSubmitted(false), 3000);
+      setTimeout(() => {
+        setSubmitted(false);
+        setMobileSubTab('reviews');
+      }, 2500);
     } catch (err: any) {
       setError(err.message || 'Failed to submit feedback. Please try again.');
     } finally {
@@ -280,19 +286,19 @@ export const FeedbackPage: React.FC = () => {
   const activeRating = hoverRating || rating;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%', maxWidth: '100%' }}>
       {/* Hero Banner */}
       <section className="glass-panel feedback-hero-banner">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.25rem' }}>
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.25rem 0.75rem', borderRadius: 9999, background: 'rgba(0, 217, 126, 0.15)', border: '1px solid rgba(0, 217, 126, 0.3)', fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-emerald)', letterSpacing: '0.07em', fontFamily: 'var(--font-mono)', marginBottom: '0.75rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.25rem 0.75rem', borderRadius: 9999, background: 'rgba(0, 217, 126, 0.15)', border: '1px solid rgba(0, 217, 126, 0.3)', fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-emerald)', letterSpacing: '0.07em', fontFamily: 'var(--font-mono)', marginBottom: '0.65rem' }}>
               <Sparkles style={{ width: 12, height: 12 }} />
               USER ONBOARDING & FEEDBACK DATASET
             </div>
-            <h1 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.4rem)', fontWeight: 900, color: '#fff', marginBottom: '0.5rem', lineHeight: 1.15 }}>
+            <h1 style={{ fontSize: 'clamp(1.4rem, 4vw, 2.4rem)', fontWeight: 900, color: '#fff', marginBottom: '0.4rem', lineHeight: 1.15 }}>
               Community Feedback Hub
             </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', maxWidth: 620, lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', maxWidth: 620, lineHeight: 1.5 }}>
               Authentic reviews and testnet wallet interaction feedback from 12+ active community testers. All entries sync directly with MongoDB Atlas and are exported as a CSV dataset.
             </p>
           </div>
@@ -302,24 +308,24 @@ export const FeedbackPage: React.FC = () => {
               href="/user_feedback_dataset.csv"
               download="user_feedback_dataset.csv"
               className="btn btn-secondary"
-              style={{ padding: '0.65rem 1.1rem', fontSize: '0.85rem', borderColor: 'rgba(0,217,126,0.3)', color: 'var(--accent-emerald)' }}
+              style={{ padding: '0.65rem 1.1rem', fontSize: '0.85rem', borderColor: 'rgba(0,217,126,0.3)', color: 'var(--accent-emerald)', width: '100%', justifyContent: 'center' }}
             >
               <Download style={{ width: 15, height: 15 }} />
               Export CSV Dataset
             </a>
 
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', background: 'rgba(0,0,0,0.4)', padding: '0.75rem 1.1rem', borderRadius: 20, border: '1px solid rgba(0,217,126,0.25)' }}>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.4)', padding: '0.75rem 1.25rem', borderRadius: 18, border: '1px solid rgba(0,217,126,0.25)', width: '100%' }}>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', lineHeight: 1, fontFamily: 'var(--font-mono)' }}>
                   {avgRating}
                 </div>
-                <div style={{ display: 'flex', gap: 2, margin: '0.2rem 0 0.1rem' }}>
+                <div style={{ display: 'flex', gap: 2, margin: '0.2rem 0 0.1rem', justifyContent: 'center' }}>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star key={star} style={{ width: 12, height: 12, fill: '#fbbf24', color: '#fbbf24' }} />
                   ))}
                 </div>
                 <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  {totalCount} Testers
+                  {totalCount} Verified Testers
                 </span>
               </div>
             </div>
@@ -327,13 +333,33 @@ export const FeedbackPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Main Grid: Form + Feedbacks */}
-      <div className="dashboard-layout" style={{ alignItems: 'start' }}>
+      {/* Mobile Segmented Control Switcher (< 900px) */}
+      <div className="mobile-only-control" style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.7)', padding: 4, borderRadius: 14, border: '1px solid var(--border-subtle)', gap: 4 }}>
+        <button
+          className={`btn ${mobileSubTab === 'reviews' ? 'btn-primary' : 'btn-secondary'}`}
+          onClick={() => setMobileSubTab('reviews')}
+          style={{ flex: 1, padding: '0.55rem', fontSize: '0.84rem' }}
+        >
+          <Layers style={{ width: 15, height: 15 }} />
+          Reviews ({filteredFeedbacks.length})
+        </button>
+        <button
+          className={`btn ${mobileSubTab === 'form' ? 'btn-primary' : 'btn-secondary'}`}
+          onClick={() => setMobileSubTab('form')}
+          style={{ flex: 1, padding: '0.55rem', fontSize: '0.84rem' }}
+        >
+          <PenTool style={{ width: 15, height: 15 }} />
+          Write Review
+        </button>
+      </div>
+
+      {/* Main Responsive Grid Layout */}
+      <div className="feedback-content-layout">
         
         {/* Submit Feedback Form Card */}
-        <div className="glass-panel feedback-form-card">
+        <div className={`glass-panel feedback-form-card ${mobileSubTab === 'form' ? 'mobile-show' : 'mobile-hide'}`}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(0, 217, 126, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-emerald)' }}>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(0, 217, 126, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-emerald)', flexShrink: 0 }}>
               <MessageSquare style={{ width: 18, height: 18 }} />
             </div>
             <div>
@@ -376,7 +402,7 @@ export const FeedbackPage: React.FC = () => {
               <label style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block', marginBottom: '0.35rem' }}>
                 Rating (1–5 Stars)
               </label>
-              <div style={{ display: 'flex', gap: '0.4rem', justifyContent: 'space-between', background: 'rgba(0,0,0,0.3)', padding: '0.6rem 0.8rem', borderRadius: 12, border: '1px solid var(--border-light)' }}>
+              <div style={{ display: 'flex', gap: '0.4rem', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', padding: '0.6rem 0.8rem', borderRadius: 12, border: '1px solid var(--border-subtle)' }}>
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -384,7 +410,7 @@ export const FeedbackPage: React.FC = () => {
                     onClick={() => setRating(star)}
                     onMouseEnter={() => setHoverRating(star)}
                     onMouseLeave={() => setHoverRating(0)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, transition: 'transform 0.15s ease', transform: activeRating >= star ? 'scale(1.2)' : 'scale(1)' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, transition: 'transform 0.15s ease', transform: activeRating >= star ? 'scale(1.2)' : 'scale(1)' }}
                   >
                     <Star style={{ width: 24, height: 24, fill: activeRating >= star ? '#fbbf24' : 'transparent', color: activeRating >= star ? '#fbbf24' : 'rgba(255,255,255,0.2)' }} />
                   </button>
@@ -433,8 +459,8 @@ export const FeedbackPage: React.FC = () => {
 
             {/* Connected Wallet Info */}
             <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.03)', padding: '0.5rem 0.75rem', borderRadius: 10 }}>
-              <ShieldCheck style={{ width: 14, height: 14, color: 'var(--accent-emerald)' }} />
-              <span>Wallet: <strong className="font-mono">{formatAddr(publicKey || 'anonymous')}</strong></span>
+              <ShieldCheck style={{ width: 14, height: 14, color: 'var(--accent-emerald)', flexShrink: 0 }} />
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Wallet: <strong className="font-mono">{formatAddr(publicKey || 'anonymous')}</strong></span>
             </div>
 
             {error && (
@@ -463,10 +489,10 @@ export const FeedbackPage: React.FC = () => {
         </div>
 
         {/* Feedback List Section */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', width: '100%' }}>
+        <div className={`feedback-list-container ${mobileSubTab === 'reviews' ? 'mobile-show' : 'mobile-hide'}`}>
           {/* Search & Filter Bar */}
           <div className="search-filter-bar">
-            <div style={{ display: 'flex', gap: '0.4rem', overflowX: 'auto', paddingBottom: 4, maxWidth: '100%' }}>
+            <div className="hide-scrollbar" style={{ display: 'flex', gap: '0.4rem', overflowX: 'auto', paddingBottom: 4, width: '100%' }}>
               {['all', 'Real-time Stream', 'UI/UX Design', 'Smart Contract Escrow', 'Freighter Integration'].map((cat) => (
                 <button
                   key={cat}
@@ -513,22 +539,23 @@ export const FeedbackPage: React.FC = () => {
                     borderRadius: 18,
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
                     width: '100%',
+                    maxWidth: '100%',
                   }}
                 >
                   {/* Card Top: Author, Category & Rating */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem', width: '100%' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', maxWidth: '100%' }}>
                       <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg, #00d97e 0%, #00c8e8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 900, fontSize: '0.95rem', flexShrink: 0 }}>
                         {fb.testerName ? fb.testerName.charAt(0) : 'T'}
                       </div>
-                      <div>
+                      <div style={{ minWidth: 0 }}>
                         <div style={{ fontWeight: 800, color: '#fff', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                           <span>{fb.testerName}</span>
                           {fb.category && (
                             <span className="tag-cyan" style={{ fontSize: '0.65rem' }}>{fb.category}</span>
                           )}
                         </div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginTop: 2 }}>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap', marginTop: 2, wordBreak: 'break-all' }}>
                           {fb.email && <span>{fb.email} · </span>}
                           <span className="font-mono">{formatAddr(fb.walletAddress)}</span>
                           <span>·</span>
@@ -538,7 +565,7 @@ export const FeedbackPage: React.FC = () => {
                     </div>
 
                     {/* Stars */}
-                    <div style={{ display: 'flex', gap: 2 }}>
+                    <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
                       {[1, 2, 3, 4, 5].map((s) => (
                         <Star
                           key={s}
@@ -554,7 +581,7 @@ export const FeedbackPage: React.FC = () => {
                   </div>
 
                   {/* Comment */}
-                  <p style={{ color: 'var(--text-main)', fontSize: '0.88rem', lineHeight: 1.55 }}>
+                  <p style={{ color: 'var(--text-main)', fontSize: '0.88rem', lineHeight: 1.55, wordBreak: 'break-word' }}>
                     "{fb.comment}"
                   </p>
 
@@ -565,9 +592,9 @@ export const FeedbackPage: React.FC = () => {
                         href={`https://stellar.expert/explorer/testnet/tx/${fb.transactionHash}`}
                         target="_blank"
                         rel="noreferrer"
-                        style={{ color: 'var(--accent-cyan)', fontSize: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: 3, textDecoration: 'none' }}
+                        style={{ color: 'var(--accent-cyan)', fontSize: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: 3, textDecoration: 'none', wordBreak: 'break-all' }}
                       >
-                        Verifiable Testnet Tx <ExternalLink style={{ width: 10, height: 10 }} />
+                        Verifiable Testnet Tx <ExternalLink style={{ width: 10, height: 10, flexShrink: 0 }} />
                       </a>
                     </div>
                   )}
