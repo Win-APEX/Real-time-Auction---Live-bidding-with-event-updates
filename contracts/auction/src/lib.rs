@@ -17,6 +17,7 @@ pub enum AuctionError {
     Unauthorized = 8,
     InvalidAmount = 9,
     SellerCannotBid = 10,
+    BuyoutNotAvailable = 11,
 }
 
 #[contracttype]
@@ -38,6 +39,7 @@ pub struct Auction {
     pub highest_bid: i128,
     pub highest_bidder: Address,
     pub min_increment: i128,
+    pub buyout_price: i128, // Optional instant buy price (0 if disabled)
     pub end_time: u64,
     pub ended: bool,
     pub total_bids: u32,
@@ -67,7 +69,7 @@ impl AuctionContract {
         Ok(())
     }
 
-    /// Create a new auction
+    /// Create a new auction with optional instant buyout price
     pub fn create_auction(
         env: Env,
         seller: Address,
@@ -75,11 +77,16 @@ impl AuctionContract {
         item_description: String,
         starting_bid: i128,
         min_increment: i128,
+        buyout_price: i128,
         duration_secs: u64,
     ) -> Result<u64, AuctionError> {
         seller.require_auth();
 
         if starting_bid <= 0 || min_increment <= 0 {
+            return Err(AuctionError::InvalidAmount);
+        }
+
+        if buyout_price > 0 && buyout_price <= starting_bid {
             return Err(AuctionError::InvalidAmount);
         }
 
@@ -102,6 +109,7 @@ impl AuctionContract {
             highest_bid: starting_bid,
             highest_bidder: seller.clone(),
             min_increment,
+            buyout_price,
             end_time,
             ended: false,
             total_bids: 0,
@@ -116,7 +124,7 @@ impl AuctionContract {
         // Publish real-time Soroban event
         env.events().publish(
             (Symbol::new(&env, "auction_created"), count),
-            (seller, starting_bid, end_time),
+            (seller, starting_bid, buyout_price, end_time),
         );
 
         Ok(count)
@@ -165,6 +173,11 @@ impl AuctionContract {
         auction.highest_bidder = bidder.clone();
         auction.total_bids += 1;
 
+        // If bid reaches or exceeds instant buyout price, automatically finalize auction
+        if auction.buyout_price > 0 && amount >= auction.buyout_price {
+            auction.ended = true;
+        }
+
         env.storage().instance().set(&DataKey::Auction(auction_id), &auction);
 
         // Record bid history
@@ -185,6 +198,69 @@ impl AuctionContract {
         env.events().publish(
             (Symbol::new(&env, "bid_placed"), auction_id),
             (bidder, amount, current_time),
+        );
+
+        Ok(())
+    }
+
+    /// Instant Buyout / Buy Now feature — immediately wins and ends the auction
+    pub fn buyout_auction(
+        env: Env,
+        auction_id: u64,
+        buyer: Address,
+        amount: i128,
+    ) -> Result<(), AuctionError> {
+        buyer.require_auth();
+
+        let mut auction: Auction = env
+            .storage()
+            .instance()
+            .get(&DataKey::Auction(auction_id))
+            .ok_or(AuctionError::AuctionNotFound)?;
+
+        if auction.ended {
+            return Err(AuctionError::AuctionAlreadyEnded);
+        }
+
+        let current_time = env.ledger().timestamp();
+        if current_time >= auction.end_time {
+            return Err(AuctionError::AuctionExpired);
+        }
+
+        if buyer == auction.seller {
+            return Err(AuctionError::SellerCannotBid);
+        }
+
+        if auction.buyout_price <= 0 || amount < auction.buyout_price {
+            return Err(AuctionError::BuyoutNotAvailable);
+        }
+
+        // Finalize instant purchase
+        auction.highest_bid = amount;
+        auction.highest_bidder = buyer.clone();
+        auction.total_bids += 1;
+        auction.ended = true;
+
+        env.storage().instance().set(&DataKey::Auction(auction_id), &auction);
+
+        // Record bid history
+        let mut bids: Vec<BidRecord> = env
+            .storage()
+            .instance()
+            .get(&DataKey::Bids(auction_id))
+            .unwrap_or(Vec::new(&env));
+
+        bids.push_back(BidRecord {
+            bidder: buyer.clone(),
+            amount,
+            timestamp: current_time,
+        });
+        env.storage().instance().set(&DataKey::Bids(auction_id), &bids);
+
+        // Publish real-time Soroban event for instant buyout
+        env.events().publish(
+            (Symbol::new(&env, "auction_buyout"), auction_id),
+            (buyer, amount, current_time),
         );
 
         Ok(())

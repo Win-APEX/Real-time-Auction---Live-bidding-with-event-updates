@@ -7,14 +7,16 @@ import { BidModal } from './components/BidModal';
 import { CreateAuctionModal } from './components/CreateAuctionModal';
 import { TxStatusModal } from './components/TxStatusModal';
 import { ProfileView } from './components/ProfileView';
+import { FeedbackPage } from './components/FeedbackPage';
 import { AuctionItem, SorobanEvent, TxStatus } from './types';
 import { INITIAL_AUCTIONS, invokeContractFunction } from './services/soroban';
 import { eventStreamer } from './services/events';
-import { Radio, Search, Sparkles, TrendingUp, Layers, Activity } from 'lucide-react';
+import { Radio, Search, Sparkles, TrendingUp, Layers, Activity, ShieldCheck, Zap } from 'lucide-react';
+import { FeedbackWidget } from './components/FeedbackWidget';
 
 const Dashboard: React.FC = () => {
   const { isConnected, publicKey, refreshBalance } = useWallet();
-  const [currentTab, setCurrentTab] = useState<'explore' | 'profile'>('explore');
+  const [currentTab, setCurrentTab] = useState<'explore' | 'profile' | 'feedback'>('explore');
   const [auctions, setAuctions] = useState<AuctionItem[]>(INITIAL_AUCTIONS);
   const [events, setEvents] = useState<SorobanEvent[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -139,131 +141,85 @@ const Dashboard: React.FC = () => {
             onBidClick={setSelectedAuctionForBid}
             onCreateAuctionClick={() => setIsCreateModalOpen(true)}
           />
+        ) : currentTab === 'feedback' ? (
+          <FeedbackPage />
         ) : (
           <>
-            {/* Hero Banner */}
+            {/* Hero Marketplace Banner */}
             <section
-              className="banner-overview"
+              className="glass-panel"
               style={{
-                background: 'linear-gradient(135deg, rgba(8, 14, 28, 0.98) 0%, rgba(0, 40, 25, 0.5) 60%, rgba(0, 30, 50, 0.5) 100%)',
-                border: '1px solid rgba(0, 217, 126, 0.15)',
+                padding: '2.5rem',
+                marginBottom: '2rem',
                 borderRadius: 24,
-                padding: '2.25rem',
-                marginBottom: '1.75rem',
+                background: 'linear-gradient(135deg, rgba(13, 19, 32, 0.95) 0%, rgba(16, 185, 129, 0.08) 50%, rgba(6, 182, 212, 0.06) 100%)',
+                border: '1px solid var(--border-subtle)',
                 position: 'relative',
                 overflow: 'hidden',
               }}
             >
-              {/* Background grid pattern */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundImage: `
-                  linear-gradient(rgba(0,217,126,0.04) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(0,217,126,0.04) 1px, transparent 1px)
-                `,
-                backgroundSize: '40px 40px',
-                pointerEvents: 'none',
-              }} />
-              {/* Glowing orbs */}
-              <div style={{
-                position: 'absolute',
-                top: '-40%',
-                right: '-10%',
-                width: 400,
-                height: 400,
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(0,200,232,0.08) 0%, transparent 70%)',
-                pointerEvents: 'none',
-              }} />
-              <div style={{
-                position: 'absolute',
-                bottom: '-60%',
-                left: '5%',
-                width: 300,
-                height: 300,
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(0,217,126,0.07) 0%, transparent 70%)',
-                pointerEvents: 'none',
-              }} />
-
-              <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
-                <div style={{ maxWidth: 560 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.75rem' }}>
-                    <div style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      padding: '0.25rem 0.75rem',
-                      borderRadius: 9999,
-                      background: 'rgba(0, 217, 126, 0.12)',
-                      border: '1px solid rgba(0, 217, 126, 0.3)',
-                      fontSize: '0.72rem',
-                      fontWeight: 700,
-                      color: 'var(--accent-emerald)',
-                      letterSpacing: '0.07em',
-                      fontFamily: 'var(--font-mono)',
-                    }}>
-                      <Sparkles style={{ width: 12, height: 12 }} />
-                      STELLAR SOROBAN · REAL-TIME BIDDING
-                    </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
+                <div style={{ maxWidth: 620 }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.25rem 0.75rem', borderRadius: 9999, background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.25)', fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-emerald)', fontFamily: 'var(--font-mono)', marginBottom: '0.85rem' }}>
+                    <Sparkles style={{ width: 12, height: 12 }} />
+                    STELLAR SOROBAN SMART CONTRACT ESCROW
                   </div>
-                  <h1 style={{
-                    fontSize: 'clamp(1.8rem, 4vw, 2.75rem)',
-                    fontWeight: 900,
-                    color: '#fff',
-                    marginBottom: '0.75rem',
-                    lineHeight: 1.15,
-                    letterSpacing: '-0.03em',
-                  }}>
-                    Decentralized<br />
-                    <span style={{
-                      background: 'linear-gradient(135deg, #00d97e 0%, #00c8e8 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                    }}>Live Auctions</span>
+
+                  <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 800, color: '#fff', lineHeight: 1.15, letterSpacing: '-0.03em', marginBottom: '0.85rem' }}>
+                    Real-Time Decentralized<br />
+                    <span style={{ background: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                      Live Auction Protocol
+                    </span>
                   </h1>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: 1.6 }}>
-                    Stream real-time bids via Soroban RPC events. Automated smart contract escrow with transparent, on-chain bid validation — no intermediaries.
+
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.98rem', lineHeight: 1.6 }}>
+                    Automated smart contract escrow on Stellar Testnet. Bid in real time with sub-3-second ledger finality and instant RPC event updates.
                   </p>
                 </div>
 
-                {/* Stats */}
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                  {[
-                    { icon: <Layers style={{ width: 16, height: 16 }} />, label: 'Active Auctions', value: auctions.length, color: 'var(--accent-emerald)' },
-                    { icon: <Radio style={{ width: 16, height: 16 }} />, label: 'Live Now', value: liveCount, color: 'var(--accent-cyan)' },
-                    { icon: <TrendingUp style={{ width: 16, height: 16 }} />, label: 'Total Volume', value: `${totalVolume} XLM`, color: 'var(--accent-emerald)' },
-                  ].map((s) => (
-                    <div key={s.label} style={{
-                      background: 'rgba(0,0,0,0.35)',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      borderRadius: 16,
-                      padding: '1rem 1.25rem',
-                      minWidth: 110,
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: s.color, marginBottom: '0.5rem' }}>
-                        {s.icon}
-                        <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</span>
-                      </div>
-                      <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em', fontFamily: 'var(--font-mono)' }}>
-                        {s.value}
-                      </div>
+                {/* Protocol Metrics Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', width: '100%', maxWidth: 440 }}>
+                  <div style={{ background: 'rgba(5, 7, 12, 0.6)', border: '1px solid var(--border-subtle)', borderRadius: 16, padding: '1.1rem 1.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--accent-emerald)', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                      <TrendingUp style={{ width: 14, height: 14 }} /> Total Volume
                     </div>
-                  ))}
+                    <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#fff', fontFamily: 'var(--font-mono)', letterSpacing: '-0.02em' }}>
+                      {totalVolume} <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>XLM</span>
+                    </div>
+                  </div>
+
+                  <div style={{ background: 'rgba(5, 7, 12, 0.6)', border: '1px solid var(--border-subtle)', borderRadius: 16, padding: '1.1rem 1.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--accent-cyan)', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                      <Radio style={{ width: 14, height: 14 }} /> Live Bidding
+                    </div>
+                    <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#fff', fontFamily: 'var(--font-mono)', letterSpacing: '-0.02em' }}>
+                      {liveCount} <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Auctions</span>
+                    </div>
+                  </div>
+
+                  <div style={{ background: 'rgba(5, 7, 12, 0.6)', border: '1px solid var(--border-subtle)', borderRadius: 16, padding: '1.1rem 1.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--accent-purple)', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                      <Zap style={{ width: 14, height: 14 }} /> Ledger Finality
+                    </div>
+                    <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#fff', fontFamily: 'var(--font-mono)', letterSpacing: '-0.02em' }}>
+                      &lt; 3.0s
+                    </div>
+                  </div>
+
+                  <div style={{ background: 'rgba(5, 7, 12, 0.6)', border: '1px solid var(--border-subtle)', borderRadius: 16, padding: '1.1rem 1.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--accent-amber)', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                      <ShieldCheck style={{ width: 14, height: 14 }} /> Verified Testers
+                    </div>
+                    <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#fff', fontFamily: 'var(--font-mono)', letterSpacing: '-0.02em' }}>
+                      12 Active
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
 
-            {/* Filter & Search Bar */}
-            <div className="search-filter-bar" style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '1.5rem',
-              gap: '1rem',
-              flexWrap: 'wrap',
-            }}>
+            {/* Filter & Search Toolbar */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', gap: '1rem', flexWrap: 'wrap' }}>
               <div style={{ display: 'flex', gap: '0.4rem' }}>
                 {(['all', 'live', 'ended'] as const).map((tab) => (
                   <button
@@ -280,33 +236,25 @@ const Dashboard: React.FC = () => {
                 ))}
               </div>
 
-              <div className="search-box" style={{ position: 'relative', width: 280 }}>
+              <div style={{ position: 'relative', width: 280 }}>
                 <Search style={{ width: 15, height: 15, position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 <input
                   type="text"
                   className="input-field"
-                  placeholder="Search auctions..."
+                  placeholder="Search listings..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{ paddingLeft: 36, paddingRight: 12 }}
+                  style={{ paddingLeft: 36 }}
                 />
               </div>
             </div>
 
-            {/* Dashboard Grid */}
+            {/* Marketplace & Sidebar Layout */}
             <div className="dashboard-layout">
               <div className="auction-grid">
                 {filteredAuctions.length === 0 ? (
-                  <div style={{
-                    gridColumn: '1 / -1',
-                    padding: '4rem',
-                    textAlign: 'center',
-                    color: 'var(--text-muted)',
-                    background: 'rgba(255,255,255,0.02)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                    borderRadius: 20,
-                  }}>
-                    No auctions found.
+                  <div className="glass-panel" style={{ gridColumn: '1 / -1', padding: '4rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                    No listings found matching your search.
                   </div>
                 ) : (
                   filteredAuctions.map((auc) => (
@@ -324,30 +272,23 @@ const Dashboard: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer style={{
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        padding: '1.5rem 1.75rem',
-        marginTop: '3rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '0.5rem',
-        fontSize: '0.8rem',
-        color: 'var(--text-dim)',
-      }}>
-        <span style={{ background: 'linear-gradient(135deg, #00d97e, #00c8e8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: 700 }}>
-          StellarBid
-        </span>
-        <span>Real-Time Auction · Stellar Soroban Testnet · Built with React + TypeScript</span>
+      <footer style={{ borderTop: '1px solid var(--border-subtle)', padding: '1.75rem 2rem', marginTop: '4rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ width: 20, height: 20, borderRadius: 4, background: 'var(--accent-emerald)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontWeight: 800, fontSize: '0.65rem' }}>
+            SB
+          </div>
+          <span style={{ color: '#fff', fontWeight: 700 }}>StellarBid Protocol</span>
+        </div>
+        <div>Stellar Soroban Testnet · Smart Contract Escrow · Built with React & TypeScript</div>
       </footer>
 
-      {/* Modals */}
+      {/* Modals & Floating Widgets */}
       <BidModal auction={selectedAuctionForBid} onClose={() => setSelectedAuctionForBid(null)} onSubmitBid={handleBidSubmit} />
       {isCreateModalOpen && (
         <CreateAuctionModal onClose={() => setIsCreateModalOpen(false)} onCreateAuction={handleCreateAuctionSubmit} />
       )}
       <TxStatusModal status={txStatus} onClose={() => setTxStatus(null)} />
+      <FeedbackWidget userPublicKey={publicKey || undefined} />
     </div>
   );
 };

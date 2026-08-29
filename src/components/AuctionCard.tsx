@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AuctionItem } from '../types';
-import { Clock, User, Award, Flame, TrendingUp } from 'lucide-react';
+import { Clock, User, Award, Flame, Zap, ShieldCheck } from 'lucide-react';
 
 interface AuctionCardProps {
   auction: AuctionItem;
@@ -17,7 +17,7 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({ auction, onBidClick })
       const now = Math.floor(Date.now() / 1000);
       const diff = auction.endTime - now;
       if (diff <= 0) {
-        setTimeLeft('Ended');
+        setTimeLeft('Auction Closed');
         setIsExpired(true);
         setTimeUrgent(false);
       } else {
@@ -28,7 +28,7 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({ auction, onBidClick })
           `${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`
         );
         setIsExpired(false);
-        setTimeUrgent(diff < 3600);
+        setTimeUrgent(diff < 3600); // under 1 hour
       }
     };
     updateTimer();
@@ -43,73 +43,43 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({ auction, onBidClick })
     ? auction.startingBid
     : auction.highestBid + auction.minIncrement;
 
-  // Random subtle accent color per card for visual variety
-  const accentColors = [
-    { from: '#00d97e', to: '#00c8e8' },
-    { from: '#a78bfa', to: '#00c8e8' },
-    { from: '#00c8e8', to: '#00d97e' },
-    { from: '#fbbf24', to: '#fb923c' },
-  ];
-  const accent = accentColors[auction.id % accentColors.length];
-
   return (
     <div
-      className="auction-card-glow"
+      className="glass-panel"
       style={{
-        background: 'linear-gradient(145deg, rgba(10, 15, 30, 0.9) 0%, rgba(5, 10, 20, 0.95) 100%)',
-        border: isExpired ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(255,255,255,0.1)',
-        borderRadius: 20,
         padding: '1.5rem',
         display: 'flex',
         flexDirection: 'column',
         gap: '1.15rem',
         position: 'relative',
-        overflow: 'hidden',
-        boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        background: 'var(--bg-card)',
+        borderRadius: 'var(--radius-lg)',
+        border: '1px solid var(--border-subtle)',
       }}
     >
-      {/* Top gradient accent bar */}
-      <div style={{
-        position: 'absolute',
-        top: 0, left: 0, right: 0,
-        height: 2,
-        background: isExpired ? 'rgba(255,255,255,0.08)' : `linear-gradient(90deg, ${accent.from} 0%, ${accent.to} 100%)`,
-        borderRadius: '20px 20px 0 0',
-      }} />
-
-      {/* Card Header */}
+      {/* Card Header: Badges & Timer */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div className={isExpired ? '' : 'live-badge'} style={
-          isExpired ? {
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-            padding: '0.2rem 0.6rem',
-            borderRadius: 9999,
-            fontSize: '0.7rem',
-            fontWeight: 700,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            background: 'rgba(255,255,255,0.06)',
-            color: 'var(--text-dim)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            fontFamily: 'var(--font-mono)',
-          } : {}
-        }>
-          {!isExpired && <div className="live-dot" />}
-          {isExpired ? 'CLOSED' : 'LIVE'}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          {!isExpired ? (
+            <div className="badge-live">
+              <div className="badge-live-dot" />
+              <span>LIVE BIDDING</span>
+            </div>
+          ) : (
+            <span style={{ fontSize: '0.7rem', fontWeight: 700, fontFamily: 'var(--font-mono)', padding: '0.2rem 0.6rem', borderRadius: 9999, background: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', border: '1px solid var(--border-subtle)' }}>
+              CLOSED
+            </span>
+          )}
+
+          {auction.buyoutPrice && auction.buyoutPrice > 0 ? (
+            <span className="tag-purple" style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+              <Zap style={{ width: 10, height: 10 }} /> BUYOUT
+            </span>
+          ) : null}
         </div>
 
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.35rem',
-          fontSize: '0.82rem',
-          color: isExpired ? 'var(--text-dim)' : timeUrgent ? 'var(--accent-rose)' : 'var(--accent-cyan)',
-          fontFamily: 'var(--font-mono)',
-          fontWeight: 600,
-        }}>
+        {/* Timer */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', fontWeight: 600, fontFamily: 'var(--font-mono)', color: isExpired ? 'var(--text-muted)' : timeUrgent ? 'var(--accent-rose)' : 'var(--accent-cyan)' }}>
           <Clock style={{ width: 13, height: 13 }} />
           <span>{timeLeft}</span>
         </div>
@@ -117,114 +87,66 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({ auction, onBidClick })
 
       {/* Item Title & Description */}
       <div>
-        <h3 style={{
-          fontSize: '1.15rem',
-          fontWeight: 800,
-          marginBottom: '0.4rem',
-          color: '#fff',
-          letterSpacing: '-0.01em',
-          lineHeight: 1.3,
-        }}>
+        <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', marginBottom: '0.35rem', letterSpacing: '-0.01em', lineHeight: 1.3 }}>
           {auction.itemTitle}
         </h3>
-        <p style={{
-          fontSize: '0.85rem',
-          color: 'var(--text-muted)',
-          lineHeight: 1.55,
-          minHeight: '2.6rem',
-        }}>
+        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5, minHeight: '2.5rem' }}>
           {auction.itemDescription}
         </p>
       </div>
 
-      {/* Bid Stats */}
-      <div style={{
-        background: 'rgba(0,0,0,0.3)',
-        borderRadius: 14,
-        padding: '0.9rem 1rem',
-        border: `1px solid ${isExpired ? 'rgba(255,255,255,0.05)' : 'rgba(0, 217, 126, 0.15)'}`,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* Subtle inner glow */}
-        {!isExpired && (
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'radial-gradient(ellipse 80% 60% at 0% 50%, rgba(0, 217, 126, 0.07) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }} />
-        )}
+      {/* Pricing & Bids Stats Grid */}
+      <div
+        style={{
+          background: 'rgba(5, 7, 12, 0.6)',
+          borderRadius: 'var(--radius-md)',
+          padding: '0.9rem 1rem',
+          border: '1px solid var(--border-subtle)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <div>
-          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.2rem' }}>
+          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
             Highest Bid
           </span>
-          <span style={{
-            fontSize: '1.45rem',
-            fontWeight: 900,
-            color: isExpired ? 'var(--text-muted)' : 'var(--accent-emerald)',
-            fontFamily: 'var(--font-mono)',
-            letterSpacing: '-0.02em',
-            textShadow: isExpired ? 'none' : '0 0 20px rgba(0,217,126,0.4)',
-          }}>
-            {auction.highestBid} <span style={{ fontSize: '0.95rem', fontWeight: 600 }}>XLM</span>
-          </span>
+          <div style={{ fontSize: '1.4rem', fontWeight: 900, color: isExpired ? 'var(--text-muted)' : 'var(--accent-emerald)', fontFamily: 'var(--font-mono)', letterSpacing: '-0.02em' }}>
+            {auction.highestBid} <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>XLM</span>
+          </div>
         </div>
+
         <div style={{ textAlign: 'right' }}>
-          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.2rem' }}>
-            Total Bids
+          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
+            {auction.totalBids === 0 ? 'Starting' : 'Total Bids'}
           </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', justifyContent: 'flex-end' }}>
-            <TrendingUp style={{ width: 14, height: 14, color: 'var(--accent-cyan)' }} />
-            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff' }}>
-              {auction.totalBids}
-            </span>
+          <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', fontFamily: 'var(--font-mono)' }}>
+            {auction.totalBids === 0 ? `${auction.startingBid} XLM` : `${auction.totalBids} bids`}
           </div>
         </div>
       </div>
 
-      {/* Participants */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        fontSize: '0.78rem',
-        color: 'var(--text-muted)',
-      }}>
+      {/* Participants Metadata */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
           <User style={{ width: 12, height: 12 }} />
-          <span>Seller: <span className="font-mono" style={{ color: 'var(--text-main)' }}>{formatAddr(auction.seller)}</span></span>
+          <span>Seller: <span className="font-mono" style={{ color: 'var(--text-primary)' }}>{formatAddr(auction.seller)}</span></span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
           <Award style={{ width: 12, height: 12, color: 'var(--accent-amber)' }} />
-          <span>Top: <span className="font-mono" style={{ color: 'var(--text-main)' }}>{formatAddr(auction.highestBidder)}</span></span>
+          <span>Highest: <span className="font-mono" style={{ color: 'var(--text-primary)' }}>{formatAddr(auction.highestBidder)}</span></span>
         </div>
       </div>
 
       {/* CTA Button */}
       <button
         className="btn btn-primary"
-        style={{
-          width: '100%',
-          justifyContent: 'center',
-          fontSize: '0.92rem',
-          padding: '0.75rem',
-          borderRadius: 14,
-          marginTop: '0.1rem',
-          background: isExpired
-            ? 'rgba(255,255,255,0.06)'
-            : `linear-gradient(135deg, ${accent.from} 0%, ${accent.to} 100%)`,
-          color: isExpired ? 'var(--text-dim)' : '#000',
-          boxShadow: isExpired ? 'none' : `0 4px 20px rgba(0, 217, 126, 0.3)`,
-          cursor: isExpired ? 'not-allowed' : 'pointer',
-        }}
+        style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', fontSize: '0.9rem', opacity: isExpired ? 0.5 : 1, cursor: isExpired ? 'not-allowed' : 'pointer' }}
         disabled={isExpired}
         onClick={() => onBidClick(auction)}
       >
         <Flame style={{ width: 16, height: 16 }} />
-        {isExpired ? 'Auction Ended' : `Place Bid — Min ${minNextBid} XLM`}
+        {isExpired ? 'Auction Ended' : `Place Bid (Min ${minNextBid} XLM)`}
       </button>
     </div>
   );

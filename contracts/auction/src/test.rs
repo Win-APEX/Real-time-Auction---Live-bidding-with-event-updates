@@ -20,11 +20,12 @@ fn test_auction_flow() {
     assert_eq!(client.initialize(&admin), ());
     assert_eq!(client.get_auction_count(), 0);
 
-    // 2. Create Auction
+    // 2. Create Auction with buyout price (500 XLM)
     let title = String::from_str(&env, "Vintage Watch");
     let description = String::from_str(&env, "Rare 1960 Chronograph in pristine condition.");
-    let starting_bid: i128 = 100_0000000; // 100 XLM in stroops (or base units)
+    let starting_bid: i128 = 100_0000000; // 100 XLM
     let min_increment: i128 = 10_0000000; // 10 XLM
+    let buyout_price: i128 = 500_0000000; // 500 XLM
     let duration: u64 = 3600; // 1 hour
 
     let auction_id = client.create_auction(
@@ -33,6 +34,7 @@ fn test_auction_flow() {
         &description,
         &starting_bid,
         &min_increment,
+        &buyout_price,
         &duration,
     );
 
@@ -43,6 +45,7 @@ fn test_auction_flow() {
     assert_eq!(auction.id, 1);
     assert_eq!(auction.seller, seller);
     assert_eq!(auction.starting_bid, 100_0000000);
+    assert_eq!(auction.buyout_price, 500_0000000);
     assert_eq!(auction.highest_bid, 100_0000000);
     assert_eq!(auction.total_bids, 0);
     assert_eq!(auction.ended, false);
@@ -81,6 +84,36 @@ fn test_auction_flow() {
 }
 
 #[test]
+fn test_buyout_instant_win() {
+    let env = Env::default();
+    env.mock_all_auths();
+
+    let contract_id = env.register_contract(None, AuctionContract);
+    let client = AuctionContractClient::new(&env, &contract_id);
+
+    let seller = Address::generate(&env);
+    let buyer = Address::generate(&env);
+
+    let auction_id = client.create_auction(
+        &seller,
+        &String::from_str(&env, "Quantum Core"),
+        &String::from_str(&env, "Instant buyable tech pass."),
+        &100_0000000,
+        &10_0000000,
+        &300_0000000, // Buyout price: 300 XLM
+        &3600,
+    );
+
+    // Execute instant buyout
+    client.buyout_auction(&auction_id, &buyer, &300_0000000);
+
+    let auction = client.get_auction(&auction_id);
+    assert_eq!(auction.highest_bid, 300_0000000);
+    assert_eq!(auction.highest_bidder, buyer);
+    assert_eq!(auction.ended, true);
+}
+
+#[test]
 #[should_panic(expected = "HostError")]
 fn test_bid_too_low() {
     let env = Env::default();
@@ -99,13 +132,12 @@ fn test_bid_too_low() {
         &String::from_str(&env, "Desc"),
         &100_0000000,
         &10_0000000,
+        &0,
         &3600,
     );
 
-    // Bidder 1 bids 100
     client.place_bid(&auction_id, &bidder1, &100_0000000);
-
-    // Bidder 2 attempts to bid 105 (requires 110 minimum) -> panic
+    // Should panic because bid is lower than highest_bid + min_increment
     client.place_bid(&auction_id, &bidder2, &105_0000000);
 }
 
@@ -126,9 +158,10 @@ fn test_seller_cannot_bid() {
         &String::from_str(&env, "Desc"),
         &100_0000000,
         &10_0000000,
+        &0,
         &3600,
     );
 
-    // Seller tries to bid on own auction -> panic
+    // Should panic because seller cannot bid on their own auction
     client.place_bid(&auction_id, &seller, &100_0000000);
 }

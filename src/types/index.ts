@@ -7,6 +7,7 @@ export interface AuctionItem {
   highestBid: number;  // in XLM
   highestBidder: string;
   minIncrement: number; // in XLM
+  buyoutPrice?: number; // in XLM (optional instant buy price)
   endTime: number;     // Unix timestamp in seconds
   ended: boolean;
   totalBids: number;

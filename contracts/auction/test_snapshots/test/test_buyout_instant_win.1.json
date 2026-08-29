@@ -1,6 +1,6 @@
 {
   "generators": {
-    "address": 4,
+    "address": 3,
     "nonce": 0
   },
   "auth": [
@@ -18,10 +18,10 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "string": "Item"
+                  "string": "Quantum Core"
                 },
                 {
-                  "string": "Desc"
+                  "string": "Instant buyable tech pass."
                 },
                 {
                   "i128": {
@@ -38,7 +38,7 @@
                 {
                   "i128": {
                     "hi": 0,
-                    "lo": 0
+                    "lo": 3000000000
                   }
                 },
                 {
@@ -58,7 +58,7 @@
           "function": {
             "contract_fn": {
               "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-              "function_name": "place_bid",
+              "function_name": "buyout_auction",
               "args": [
                 {
                   "u64": 1
@@ -69,7 +69,7 @@
                 {
                   "i128": {
                     "hi": 0,
-                    "lo": 1000000000
+                    "lo": 3000000000
                   }
                 }
               ]
@@ -134,7 +134,7 @@
                               "val": {
                                 "i128": {
                                   "hi": 0,
-                                  "lo": 0
+                                  "lo": 3000000000
                                 }
                               }
                             },
@@ -151,7 +151,7 @@
                                 "symbol": "ended"
                               },
                               "val": {
-                                "bool": false
+                                "bool": true
                               }
                             },
                             {
@@ -161,7 +161,7 @@
                               "val": {
                                 "i128": {
                                   "hi": 0,
-                                  "lo": 1000000000
+                                  "lo": 3000000000
                                 }
                               }
                             },
@@ -186,7 +186,7 @@
                                 "symbol": "item_description"
                               },
                               "val": {
-                                "string": "Desc"
+                                "string": "Instant buyable tech pass."
                               }
                             },
                             {
@@ -194,7 +194,7 @@
                                 "symbol": "item_title"
                               },
                               "val": {
-                                "string": "Item"
+                                "string": "Quantum Core"
                               }
                             },
                             {
@@ -272,7 +272,7 @@
                                   "val": {
                                     "i128": {
                                       "hi": 0,
-                                      "lo": 1000000000
+                                      "lo": 3000000000
                                     }
                                   }
                                 },
