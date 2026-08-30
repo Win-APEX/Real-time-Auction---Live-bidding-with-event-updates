@@ -25,7 +25,7 @@
 | 🚀 **Live Demo (Vercel)** | [real-time-auction-live-bidding-with.vercel.app](https://real-time-auction-live-bidding-with.vercel.app/) |
 | 🎥 **Demo Video (YouTube)** | [https://youtu.be/VvRQZQywZT8](https://youtu.be/VvRQZQywZT8) |
 | 📊 **Pitch Deck / Presentation** | [StellarBid Pitch Deck & Market Architecture](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates#-%EF%B8%8F-product-presentation--pitch-deck) |
-| 📋 **Google Form Feedback Survey** | [Google Form: StellarBid Onboarding & Feedback](https://forms.gle/StellarBidCommunityFeedback) |
+| 📋 **Google Form Feedback Survey** | [Google Form: StellarBid Onboarding & Feedback](https://forms.gle/ZGeAWPUHatHz2bar5) |
 | 📄 **Exported Feedback Dataset (Excel / CSV)** | [`public/user_feedback_dataset.csv`](public/user_feedback_dataset.csv) |
 | 📦 **GitHub Repository** | [github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates) |
 | 📜 **Deployed Contract Address** | `CB6N36D2L2C5Y7Z4Q3V7K3W6N2M1K9L8P7O6I5U4Y3T2R1E0W` |
@@ -206,7 +206,7 @@ test result: ok. 3 passed; 0 failed; 0 ignored
 | **Dedicated Documentation Website** | ✅ | [real-time-auction-live-bidding-with.vercel.app/#docs](https://real-time-auction-live-bidding-with.vercel.app/#docs) |
 | **Minimum 50+ Testnet Users Onboarded** | ✅ | **52 verified Indian testnet users** logged in [`public/user_feedback_dataset.csv`](public/user_feedback_dataset.csv) |
 | **Exported Excel / CSV Sheet Link** | ✅ | Linked in README & available on-site at [`public/user_feedback_dataset.csv`](public/user_feedback_dataset.csv) |
-| **Google Form Survey Link** | ✅ | Linked in README: [Google Form Link](https://forms.gle/StellarBidCommunityFeedback) |
+| **Google Form Survey Link** | ✅ | Linked in README: [Google Form Link](https://forms.gle/ZGeAWPUHatHz2bar5) |
 | **Feedback Iteration Summary with Commit Links** | ✅ | 6 features mapped directly to GitHub commits ([`2d3d528`](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates/commit/2d3d528), [`c2e6e2a`](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates/commit/c2e6e2a), [`61f9f53`](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates/commit/61f9f53), [`7d13551`](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates/commit/7d13551), [`53281e7`](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates/commit/53281e7), [`99be85b`](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates/commit/99be85b)) |
 | **Pitch Deck / Presentation Outline** | ✅ | Complete 6-slide Pitch Deck section in README |
 | **Demo Video Link (1–2 minutes)** | ✅ | [https://youtu.be/VvRQZQywZT8](https://youtu.be/VvRQZQywZT8) |
