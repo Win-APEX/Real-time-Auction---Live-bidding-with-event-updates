@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useWallet } from '../context/WalletContext';
-import { Wallet, LogOut, RefreshCw, Zap, ShieldCheck, Sparkles, User, LayoutGrid, MessageSquare, PlusCircle, Menu, X } from 'lucide-react';
+import { Wallet, LogOut, RefreshCw, Zap, ShieldCheck, Sparkles, User, LayoutGrid, MessageSquare, PlusCircle, Menu, X, BookOpen } from 'lucide-react';
 
 interface NavbarProps {
-  currentTab: 'explore' | 'profile' | 'feedback';
-  onTabChange: (tab: 'explore' | 'profile' | 'feedback') => void;
+  currentTab: 'explore' | 'profile' | 'feedback' | 'docs';
+  onTabChange: (tab: 'explore' | 'profile' | 'feedback' | 'docs') => void;
   onCreateAuctionClick: () => void;
 }
 
@@ -20,7 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange, onCreat
   const formatAddress = (addr: string) =>
     addr ? `${addr.substring(0, 5)}…${addr.substring(addr.length - 4)}` : '';
 
-  const handleTabClick = (tab: 'explore' | 'profile' | 'feedback') => {
+  const handleTabClick = (tab: 'explore' | 'profile' | 'feedback' | 'docs') => {
     onTabChange(tab);
     setMobileMenuOpen(false);
   };
@@ -35,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange, onCreat
               <Zap style={{ width: 18, height: 18 }} />
             </div>
             <span>StellarBid</span>
-            <span className="logo-badge">TESTNET RPC</span>
+            <span className="logo-badge">SOROBAN TESTNET</span>
           </div>
 
           {/* Desktop Nav Tabs */}
@@ -58,6 +58,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange, onCreat
             >
               <MessageSquare style={{ width: 15, height: 15 }} /> Community Hub
             </button>
+            <button
+              className={`nav-tab-item ${currentTab === 'docs' ? 'active' : ''}`}
+              onClick={() => handleTabClick('docs')}
+            >
+              <BookOpen style={{ width: 15, height: 15 }} /> Docs Portal
+            </button>
           </nav>
 
           {/* Right: Desktop Wallet Actions */}
@@ -69,81 +75,120 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange, onCreat
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.75rem',
-                    padding: '0.45rem 0.85rem',
-                    borderRadius: '12px',
+                    gap: '0.6rem',
                     background: 'rgba(15, 23, 42, 0.7)',
                     border: '1px solid var(--border-subtle)',
+                    padding: '0.35rem 0.85rem',
+                    borderRadius: 'var(--radius-full)',
+                    fontSize: '0.84rem',
                   }}
                 >
                   <div
-                    style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer' }}
-                    onClick={() => handleTabClick('profile')}
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      background: walletType === 'freighter' ? 'var(--accent-emerald)' : 'var(--accent-cyan)',
+                      boxShadow: walletType === 'freighter' ? '0 0 8px var(--accent-emerald)' : '0 0 8px var(--accent-cyan)',
+                    }}
+                  />
+                  <span style={{ fontWeight: 700, color: '#fff' }} className="font-mono">
+                    {formatAddress(publicKey || '')}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: '0.72rem',
+                      padding: '0.1rem 0.45rem',
+                      borderRadius: 'var(--radius-sm)',
+                      background: 'rgba(255,255,255,0.08)',
+                      color: 'var(--text-muted)',
+                      textTransform: 'uppercase',
+                      fontFamily: 'var(--font-mono)',
+                    }}
                   >
-                    <ShieldCheck style={{ width: 15, height: 15, color: 'var(--accent-emerald)' }} />
-                    <span className="font-mono" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                      {formatAddress(publicKey || '')}
-                    </span>
-                    {walletType === 'simulated' && (
-                      <span className="tag-cyan">DEMO</span>
-                    )}
-                  </div>
-
-                  <div style={{ width: 1, height: 16, background: 'var(--border-subtle)' }} />
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--accent-emerald)', fontFamily: 'var(--font-mono)' }}>
-                      {balance !== null ? balance.toFixed(2) : '0.00'} XLM
-                    </span>
-                    <button
-                      onClick={refreshBalance}
-                      style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', padding: 2 }}
-                      title="Refresh Balance"
-                    >
-                      <RefreshCw style={{ width: 13, height: 13 }} />
-                    </button>
-                  </div>
+                    {walletType}
+                  </span>
                 </div>
 
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    if (!isConnected) connectDemoWallet();
-                    onCreateAuctionClick();
+                {/* Balance Pill */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    background: 'rgba(16, 185, 129, 0.12)',
+                    border: '1px solid rgba(16, 185, 129, 0.3)',
+                    padding: '0.35rem 0.85rem',
+                    borderRadius: 'var(--radius-full)',
+                    fontSize: '0.84rem',
+                    fontWeight: 700,
+                    color: 'var(--accent-emerald)',
+                    fontFamily: 'var(--font-mono)',
                   }}
                 >
-                  <PlusCircle style={{ width: 16, height: 16 }} />
-                  Create Listing
-                </button>
+                  <span>{balance !== null ? balance.toLocaleString() : '...'} XLM</span>
+                  <button
+                    onClick={() => refreshBalance()}
+                    disabled={isLoading}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--accent-emerald)',
+                      cursor: 'pointer',
+                      padding: 2,
+                      display: 'flex',
+                    }}
+                    title="Refresh Balance"
+                  >
+                    <RefreshCw style={{ width: 12, height: 12, animation: isLoading ? 'spin 1s linear infinite' : 'none' }} />
+                  </button>
+                </div>
 
+                {/* Disconnect */}
                 <button
+                  onClick={() => disconnectWallet()}
                   className="btn btn-secondary"
-                  onClick={disconnectWallet}
+                  style={{ padding: '0.45rem 0.75rem', fontSize: '0.8rem' }}
                   title="Disconnect Wallet"
-                  style={{ padding: '0.6rem 0.75rem', color: 'var(--accent-rose)' }}
                 >
-                  <LogOut style={{ width: 15, height: 15 }} />
+                  <LogOut style={{ width: 14, height: 14 }} />
                 </button>
               </>
             ) : (
-              <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
+              <>
                 <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    if (!isConnected) connectDemoWallet();
-                    onCreateAuctionClick();
-                  }}
+                  onClick={() => connectDemoWallet()}
+                  className="btn btn-secondary"
+                  style={{ fontSize: '0.82rem', borderColor: 'rgba(6, 182, 212, 0.3)', color: 'var(--accent-cyan)' }}
                 >
-                  <PlusCircle style={{ width: 16, height: 16 }} />
-                  Create Listing
+                  <Sparkles style={{ width: 14, height: 14 }} /> Demo Wallet
                 </button>
-
-                <button className="btn btn-secondary" onClick={connectWallet} disabled={isLoading}>
-                  <Wallet style={{ width: 16, height: 16 }} />
-                  {isLoading ? 'Connecting...' : 'Connect Freighter'}
+                <button
+                  onClick={() => connectWallet()}
+                  className="btn btn-primary"
+                  style={{ fontSize: '0.82rem' }}
+                >
+                  <Wallet style={{ width: 14, height: 14 }} /> Connect Freighter
                 </button>
-              </div>
+              </>
             )}
+
+            {/* Create Listing Button (Always visible) */}
+            <button
+              onClick={() => {
+                if (!isConnected) connectDemoWallet();
+                onCreateAuctionClick();
+              }}
+              className="btn btn-primary"
+              style={{
+                fontSize: '0.82rem',
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
+                borderColor: 'rgba(139, 92, 246, 0.4)',
+                boxShadow: '0 4px 14px rgba(139, 92, 246, 0.35)',
+              }}
+            >
+              <PlusCircle style={{ width: 14, height: 14 }} /> + Create Listing
+            </button>
           </div>
 
           {/* Mobile Hamburger Toggle Button */}
@@ -157,102 +202,102 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange, onCreat
         </div>
       </div>
 
-      {/* Mobile Drawer / Overlay Menu */}
+      {/* Mobile Menu Drawer Overlay */}
       {mobileMenuOpen && (
         <div className="mobile-menu-drawer">
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {/* Navigation Links */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             <button
               className={`nav-tab-item ${currentTab === 'explore' ? 'active' : ''}`}
-              style={{ width: '100%', justifyContent: 'flex-start', padding: '0.75rem 1rem' }}
               onClick={() => handleTabClick('explore')}
+              style={{ width: '100%', justifyContent: 'flex-start' }}
             >
-              <LayoutGrid style={{ width: 18, height: 18 }} /> Live Marketplace
+              <LayoutGrid style={{ width: 16, height: 16 }} /> Live Marketplace
             </button>
             <button
               className={`nav-tab-item ${currentTab === 'profile' ? 'active' : ''}`}
-              style={{ width: '100%', justifyContent: 'flex-start', padding: '0.75rem 1rem' }}
               onClick={() => handleTabClick('profile')}
+              style={{ width: '100%', justifyContent: 'flex-start' }}
             >
-              <User style={{ width: 18, height: 18 }} /> Portfolio & Stats
+              <User style={{ width: 16, height: 16 }} /> Portfolio & Stats
             </button>
             <button
               className={`nav-tab-item ${currentTab === 'feedback' ? 'active' : ''}`}
-              style={{ width: '100%', justifyContent: 'flex-start', padding: '0.75rem 1rem' }}
               onClick={() => handleTabClick('feedback')}
+              style={{ width: '100%', justifyContent: 'flex-start' }}
             >
-              <MessageSquare style={{ width: 18, height: 18 }} /> Community Hub
+              <MessageSquare style={{ width: 16, height: 16 }} /> Community Hub
             </button>
-          </nav>
+            <button
+              className={`nav-tab-item ${currentTab === 'docs' ? 'active' : ''}`}
+              onClick={() => handleTabClick('docs')}
+              style={{ width: '100%', justifyContent: 'flex-start' }}
+            >
+              <BookOpen style={{ width: 16, height: 16 }} /> Docs Portal
+            </button>
+          </div>
 
-          <div style={{ height: 1, background: 'var(--border-subtle)', margin: '0.5rem 0' }} />
+          <div style={{ height: 1, background: 'var(--border-subtle)', margin: '0.2rem 0' }} />
 
-          {/* Wallet Actions in Mobile Drawer */}
+          {/* Mobile Wallet Status */}
           {isConnected ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0.75rem 1rem',
-                  borderRadius: '12px',
-                  background: 'rgba(15, 23, 42, 0.8)',
-                  border: '1px solid var(--border-subtle)',
-                }}
-              >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(15, 23, 42, 0.7)', padding: '0.65rem 0.85rem', borderRadius: 12, border: '1px solid var(--border-subtle)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <ShieldCheck style={{ width: 16, height: 16, color: 'var(--accent-emerald)' }} />
-                  <span className="font-mono" style={{ fontSize: '0.85rem', fontWeight: 600 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--accent-emerald)' }} />
+                  <span className="font-mono" style={{ fontSize: '0.85rem', fontWeight: 700, color: '#fff' }}>
                     {formatAddress(publicKey || '')}
                   </span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--accent-emerald)', fontFamily: 'var(--font-mono)' }}>
-                    {balance !== null ? balance.toFixed(2) : '0.00'} XLM
-                  </span>
-                  <button onClick={refreshBalance} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 2 }}>
-                    <RefreshCw style={{ width: 12, height: 12 }} />
-                  </button>
-                </div>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-emerald)', fontFamily: 'var(--font-mono)' }}>
+                  {balance !== null ? balance.toLocaleString() : '0'} XLM
+                </span>
               </div>
 
-              <button
-                className="btn btn-primary"
-                style={{ width: '100%', justifyContent: 'center', padding: '0.75rem' }}
-                onClick={() => { onCreateAuctionClick(); setMobileMenuOpen(false); }}
-              >
-                <PlusCircle style={{ width: 18, height: 18 }} />
-                Create Listing
-              </button>
-
-              <button
-                className="btn btn-secondary"
-                style={{ width: '100%', justifyContent: 'center', color: 'var(--accent-rose)', padding: '0.65rem' }}
-                onClick={() => { disconnectWallet(); setMobileMenuOpen(false); }}
-              >
-                <LogOut style={{ width: 16, height: 16 }} />
-                Disconnect Wallet
-              </button>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button
+                  onClick={() => {
+                    onCreateAuctionClick();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="btn btn-primary"
+                  style={{ flex: 1, padding: '0.6rem', fontSize: '0.82rem', background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)' }}
+                >
+                  <PlusCircle style={{ width: 14, height: 14 }} /> + Create Listing
+                </button>
+                <button
+                  onClick={() => {
+                    disconnectWallet();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="btn btn-secondary"
+                  style={{ padding: '0.6rem 0.85rem', fontSize: '0.82rem' }}
+                >
+                  <LogOut style={{ width: 14, height: 14 }} />
+                </button>
+              </div>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
               <button
-                className="btn btn-primary"
-                style={{ width: '100%', justifyContent: 'center', padding: '0.75rem' }}
-                onClick={() => { connectWallet(); setMobileMenuOpen(false); }}
-                disabled={isLoading}
+                onClick={() => {
+                  connectDemoWallet();
+                  setMobileMenuOpen(false);
+                }}
+                className="btn btn-secondary"
+                style={{ width: '100%', justifyContent: 'center', borderColor: 'rgba(6, 182, 212, 0.3)', color: 'var(--accent-cyan)' }}
               >
-                <Wallet style={{ width: 18, height: 18 }} />
-                {isLoading ? 'Connecting...' : 'Connect Freighter'}
+                <Sparkles style={{ width: 15, height: 15 }} /> Use Demo Wallet
               </button>
               <button
-                className="btn btn-secondary"
-                style={{ width: '100%', justifyContent: 'center', padding: '0.65rem' }}
-                onClick={() => { connectDemoWallet(); setMobileMenuOpen(false); }}
-                disabled={isLoading}
+                onClick={() => {
+                  connectWallet();
+                  setMobileMenuOpen(false);
+                }}
+                className="btn btn-primary"
+                style={{ width: '100%', justifyContent: 'center' }}
               >
-                <Sparkles style={{ width: 16, height: 16, color: 'var(--accent-cyan)' }} />
-                Use Testnet Demo Wallet
+                <Wallet style={{ width: 15, height: 15 }} /> Connect Freighter Wallet
               </button>
             </div>
           )}
@@ -260,26 +305,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onTabChange, onCreat
       )}
 
       {error && (
-        <div style={{
-          maxWidth: 1400,
-          margin: '0.5rem auto 0',
-          padding: '0.55rem 1rem',
-          background: 'rgba(244, 63, 94, 0.12)',
-          border: '1px solid rgba(244, 63, 94, 0.25)',
-          borderRadius: 10,
-          color: 'var(--accent-rose)',
-          fontSize: '0.82rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <span>{error}</span>
-          <button
-            onClick={connectDemoWallet}
-            style={{ background: 'var(--accent-cyan)', color: '#000', border: 'none', borderRadius: 6, padding: '0.22rem 0.6rem', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}
-          >
-            Use Demo Wallet
-          </button>
+        <div style={{ background: 'rgba(244, 63, 94, 0.15)', borderBottom: '1px solid rgba(244, 63, 94, 0.3)', padding: '0.4rem 1.5rem', fontSize: '0.8rem', color: 'var(--accent-rose)', textAlign: 'center' }}>
+          {error}
         </div>
       )}
     </header>

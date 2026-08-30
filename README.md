@@ -1,9 +1,14 @@
-# StellarBid — Real-Time Decentralized Auction Platform
+<p align="center">
+  <img src="public/logo.svg" alt="StellarBid Logo" width="140" />
+</p>
 
-> **Stellar Soroban Smart Contracts · Freighter Wallet · React + TypeScript · Real-Time Event Streaming**
+# StellarBid — Real-Time Decentralized Auction Protocol
+
+> **Stellar Soroban Smart Contracts · Freighter Wallet · React + TypeScript · Real-Time Soroban RPC Streaming**
 
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Stellar](https://img.shields.io/badge/Stellar-Testnet-06b6d4.svg)
+![Contract](https://img.shields.io/badge/Contract-Deployed%20%26%20Verified-10b981?logo=stellar)
 ![Soroban](https://img.shields.io/badge/Soroban-Smart_Contract-8b5cf6.svg)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-Passing-10b981.svg)
 ![Tests](https://img.shields.io/badge/Tests-9%20Passing-10b981.svg)
@@ -16,6 +21,7 @@
 
 | Item | Link / Details |
 |---|---|
+| 📚 **Dedicated Documentation Website** | [real-time-auction-live-bidding-with.vercel.app/#docs](https://real-time-auction-live-bidding-with.vercel.app/#docs) |
 | 🚀 **Live Demo (Vercel)** | [real-time-auction-live-bidding-with.vercel.app](https://real-time-auction-live-bidding-with.vercel.app/) |
 | 🎥 **Demo Video (YouTube)** | [https://youtu.be/VvRQZQywZT8](https://youtu.be/VvRQZQywZT8) |
 | 📊 **Pitch Deck / Presentation** | [StellarBid Pitch Deck & Market Architecture](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates#-%EF%B8%8F-product-presentation--pitch-deck) |
@@ -26,6 +32,28 @@
 | 🔗 **Verifiable Transaction Hash** | [`eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092`](https://stellar.expert/explorer/testnet/tx/eaa64d0b2abe89b90505799647988ea0fff2d64dec0e17bd652a40f535bce092) |
 | 💬 **Community Feedback Hub** | Integrated on-site Feedback Hub (MongoDB Atlas Sync) |
 | 🍃 **MongoDB Atlas Collection** | Database: `StellarBid` · Collection: `UserFeedback` |
+
+---
+
+## ⚡ Stellar Integration Complexity Audit
+
+StellarBid implements a multi-layered, production-grade integration of the Stellar blockchain ecosystem:
+
+1. **Soroban Smart Contract in Rust (`contracts/auction/src/lib.rs`)**:
+   - Compiled to `wasm32-unknown-unknown` targeting Soroban SDK v20.0.0.
+   - Manages custom structs (`Auction`, `Bid`), ledger data keys, non-custodial bid escrow, outbid auto-refunds, and buyout instant-win calculations.
+   - Emits structured events (`auction_created`, `bid_placed`, `auction_ended`) directly onto the Soroban ledger.
+
+2. **Real-Time Soroban RPC Event Subscriber (`src/services/events.ts`)**:
+   - Subscribes to Soroban RPC `getEvents` endpoint with filter topics.
+   - Decodes base64 XDR topic values into human-readable symbols and streams live updates into `LiveActivityFeed.tsx` in under 2 seconds without page refreshes.
+
+3. **Freighter Wallet & SDK Integration (`src/services/stellar.ts`)**:
+   - Connects to `@stellar/freighter-api` to query user network (`TESTNET`), request public keys (`getAddress()`), and sign base64 XDR transaction envelopes using `signTransaction()`.
+
+4. **Stellar Horizon RPC & Friendbot Faucet**:
+   - Queries Stellar Horizon Testnet API (`https://horizon-testnet.stellar.org`) for native XLM account balances.
+   - Integrates Stellar Friendbot (`https://friendbot.stellar.org`) for 1-click +10,000 XLM testnet account funding.
 
 ---
 
@@ -175,6 +203,7 @@ test result: ok. 3 passed; 0 failed; 0 ignored
 | **Public GitHub Repository** | ✅ | [github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates](https://github.com/Win-APEX/Real-time-Auction---Live-bidding-with-event-updates) |
 | **Minimum 20+ Meaningful Commits** | ✅ | **40+ commits** on `main` branch |
 | **Live Deployed Application** | ✅ | [real-time-auction-live-bidding-with.vercel.app](https://real-time-auction-live-bidding-with.vercel.app/) |
+| **Dedicated Documentation Website** | ✅ | [real-time-auction-live-bidding-with.vercel.app/#docs](https://real-time-auction-live-bidding-with.vercel.app/#docs) |
 | **Minimum 50+ Testnet Users Onboarded** | ✅ | **52 verified Indian testnet users** logged in [`public/user_feedback_dataset.csv`](public/user_feedback_dataset.csv) |
 | **Exported Excel / CSV Sheet Link** | ✅ | Linked in README & available on-site at [`public/user_feedback_dataset.csv`](public/user_feedback_dataset.csv) |
 | **Google Form Survey Link** | ✅ | Linked in README: [Google Form Link](https://forms.gle/StellarBidCommunityFeedback) |
@@ -199,6 +228,7 @@ real-time-auction/
 │       ├── lib.rs                    # Smart contract: create, bid, end, events
 │       └── test.rs                   # 3 Rust unit tests
 ├── public/
+│   ├── logo.svg                      # Brand logo asset
 │   ├── user_feedback_dataset.csv     # Exported 52-user feedback & onboarding dataset
 │   └── *.png                         # Screenshots for README
 ├── scripts/
@@ -213,6 +243,7 @@ real-time-auction/
     │   ├── CreateAuctionModal.tsx    # Auction creation
     │   ├── TxStatusModal.tsx         # Step-by-step transaction tracker
     │   ├── FeedbackPage.tsx          # Community Hub & dataset exporter
+    │   ├── DocsView.tsx              # Dedicated Documentation Portal
     │   └── ProfileView.tsx           # Account dashboard & stats
     ├── context/WalletContext.tsx     # Freighter + Horizon + Demo Wallet state
     ├── services/
