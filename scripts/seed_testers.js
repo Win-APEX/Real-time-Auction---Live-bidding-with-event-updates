@@ -533,6 +533,15 @@ const TESTERS = [
   },
 ];
 
+function formatDateForCSV(isoStr) {
+  try {
+    const d = new Date(isoStr);
+    return d.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+  } catch {
+    return isoStr;
+  }
+}
+
 async function seedDatabaseAndExportCSV() {
   console.log('🚀 Connecting to MongoDB Atlas...');
   const client = new MongoClient(MONGODB_URI, {
@@ -586,7 +595,7 @@ async function seedDatabaseAndExportCSV() {
       t.rating,
       `"${t.category}"`,
       `"${t.comment.replace(/"/g, '""')}"`,
-      `"${t.timestamp}"`,
+      `"${formatDateForCSV(t.timestamp)}"`,
     ]);
 
     const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
@@ -598,13 +607,7 @@ async function seedDatabaseAndExportCSV() {
 
     const csvPath = path.join(publicDir, 'user_feedback_dataset.csv');
     fs.writeFileSync(csvPath, csvContent, 'utf-8');
-    console.log(`✅ CSV dataset successfully updated with 52 Indian tester names at: ${csvPath}`);
-
-    // Also write TS file for fallback array in FeedbackPage.tsx
-    const initialFeedbacksTs = `export const INITIAL_FEEDBACKS = ${JSON.stringify(TESTERS.map((t, idx) => ({ id: `f-${idx+1}`, ...t })), null, 2)};\n`;
-    const initialFeedbacksPath = path.join(__dirname, 'initial_feedbacks.json');
-    fs.writeFileSync(initialFeedbacksPath, initialFeedbacksTs, 'utf-8');
-    console.log(`✅ Generated JSON helper at: ${initialFeedbacksPath}`);
+    console.log(`✅ CSV dataset successfully updated with formatted timestamps at: ${csvPath}`);
 
   } catch (err) {
     console.error('❌ Error during seeding/export:', err);
